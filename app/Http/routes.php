@@ -55,17 +55,22 @@ Route::get('/logout',['as' => 'logout', function () {
  * Grouped route to check users permissions
  */
 Route::group(['middleware' => 'authenticateUser'], function () {
-    Route::get('/details', function ()    {
-        return view('details');
-    });
 
-    Route::get('dashboard', function () {
-        echo 'welcome to dashboard page';
-    });
+    Route::get('/details', 'DatatablesController@getIndex');
+
+    Route::get('dashboard', 'DashboardController@showDashboard');
+
+    Route::get('delete/{id}','HelperController@delete');
+
+    Route::get('update/{id}','HelperController@update');
+
+    /**
+     * Route to process user Update
+     */
+    Route::post('do-update', ['as' => 'do-update', 'uses' => 'HelperController@doUpdate']);
+
+    Route::post('dashboard/getPermissions', 'DashboardController@getPermissions');
 });
-
-
-
 
 
 

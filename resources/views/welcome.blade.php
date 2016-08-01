@@ -18,6 +18,7 @@
                 $wish = 'Good evening';
                 }
             ?>
+            @include('common.errors')
             @if ( Auth::check() )
                 <h2>Welcome back {{ Auth::user()->firstName }} , {{ $wish }}</h2>
             @else

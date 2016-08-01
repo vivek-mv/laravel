@@ -44,3 +44,68 @@
         <strong>Invalid login credentials.</strong>
     </div>
 @endif
+
+<!-- Message for invalid login -->
+@if ( Session::get('unauthorised') == '1' )
+
+    <div class="alert alert-danger">
+        <strong>Sorry ! You are not authorised.</strong>
+    </div>
+@endif
+
+<!-- Message for account delete failed -->
+@if ( Session::get('deletefailed') == '1' )
+
+    <div class="alert alert-danger">
+        <strong>Sorry ! We encounted some problem while trying to delete your account.Please try after some time.</strong>
+    </div>
+@endif
+
+<!-- Message for account update success -->
+@if ( Session::get('updateSuccess') == '1' )
+
+    <div class="alert alert-success">
+        <strong>Update was successful</strong>
+    </div>
+@endif
+
+<!-- Message for account update failed -->
+@if ( Session::get('updateFailed') == '1' )
+
+    <div class="alert alert-danger">
+        <strong>Update failed please try again after some time</strong>
+    </div>
+@endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

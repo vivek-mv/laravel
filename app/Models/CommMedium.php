@@ -30,18 +30,23 @@ class CommMedium extends Model
      * @param String
      * @return boolean
      */
-    public static function add($request,$employee_id) {
+    public static function add($request, $employee_id,  $isUpdate = false) {
 
         if ( $request->commMed == null ) {
             $request->commMed = [];
         }
 
         try{
-            // Insert Communication Medium
-            $commMedium = new CommMedium;
+            // Check for request type : New user or Update current user
+            if ( $isUpdate ) {
+                $commMedium = CommMedium::where('employee_id', $employee_id)->first();
+            } else {
+                // Insert Communication Medium
+                $commMedium = new CommMedium;
+            }
             $commMedium->employee_id = $employee_id;
             $commMedium->msg = (in_array('msg',$request->commMed) ? 1 : 0);
-            $commMedium->email = (in_array('mail',$request->commMed) ? 1 : 0);;
+            $commMedium->mail = (in_array('mail',$request->commMed) ? 1 : 0);;
             $commMedium->call = (in_array('phone',$request->commMed) ? 1 : 0);
             $commMedium->any = (in_array('any',$request->commMed) ? 1 : 0);
             $commMedium->save();

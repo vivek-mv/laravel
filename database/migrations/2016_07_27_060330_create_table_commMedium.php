@@ -17,7 +17,7 @@ class CreateTableCommMedium extends Migration
             $table->increments('id');
             $table->integer('employee_id')->unsigned();
             $table->integer('msg');
-            $table->integer('email');
+            $table->integer('mail');
             $table->integer('call');
             $table->integer('any');
             $table->foreign('employee_id')->references('id')->on('employees');

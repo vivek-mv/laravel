@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Address;
 use App\Models\Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
@@ -28,7 +29,11 @@ class RegistrationController extends Controller
      */
     public function register(Request $request)
     {
-        return view('registration');
+        // If the user is logged in , then redirect to home page
+        if ( !Auth::check() ) {
+            return view('registration')->with('route','do-register')->with('user',$request);
+        }
+        return redirect()->route('home');
     }
 
     /**

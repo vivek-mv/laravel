@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Log In')
+@section('title',ucfirst(explode('/',\Request::getPathInfo())[1]))
 @section('content')
     <noscript>
         This site uses javascript to serve its full functionality. Please enable javascript . Thank You :)
@@ -8,9 +8,10 @@
     <div class="container">
         <!-- Display Validation Errors -->
         @include('common.errors')
-        <h1>REGISTER</h1>
+
+        <h1>{{ ucfirst(explode('/',\Request::getPathInfo())[1]) }}</h1>
         <!-- New Task Form -->
-        {!! Form::open(array('url' => route('do-register'), 'method' => 'POST','id' => 'registration-form', 'class' => 'form-horizontal','files' => true )) !!}
+        {!! Form::open(array('url' => route($route), 'method' => 'POST','id' => 'registration-form', 'class' => 'form-horizontal','files' => true )) !!}
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <fieldset>
@@ -28,7 +29,7 @@
                         <div class="form-group">
                             {!! Form::label('firstName', 'First Name', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('firstName', old('firstName'),['class' => 'form-control', 'placeholder' => 'First Name']) !!}
+                                {!! Form::text('firstName', $user->firstName,['class' => 'form-control', 'placeholder' => 'First Name']) !!}
                             </div>
                         </div>
 
@@ -36,7 +37,7 @@
                         <div class="form-group">
                             {!! Form::label('middleName', 'Middle Name', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('middleName', old('middleName'),['class' => 'form-control', 'placeholder' => 'Middle Name']) !!}
+                                {!! Form::text('middleName', $user->middleName,['class' => 'form-control', 'placeholder' => 'Middle Name']) !!}
                             </div>
                         </div>
 
@@ -44,7 +45,7 @@
                         <div class="form-group">
                             {!! Form::label('lastName', 'Last Name', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('lastName', old('lastName'),['class' => 'form-control', 'placeholder' => 'Last Name']) !!}
+                                {!! Form::text('lastName', $user->lastName,['class' => 'form-control', 'placeholder' => 'Last Name']) !!}
                             </div>
                         </div>
 
@@ -57,11 +58,11 @@
                                 {!! Form::label('male', 'Male') !!}
 
 
-                                {!! Form::radio('gender', 'female','',array('id' => 'female')) !!}
+                                {!! Form::radio('gender', 'female',$user->isFemale,array('id' => 'female')) !!}
                                 {!! Form::label('female', 'Female') !!}
 
 
-                                {!! Form::radio('gender', 'others','',array('id' => 'others')) !!}
+                                {!! Form::radio('gender', 'others',$user->isOthers,array('id' => 'others')) !!}
                                 {!! Form::label('others', 'Others') !!}
                             </div>
                         </div>
@@ -70,7 +71,7 @@
                         <div class="form-group">
                             {!! Form::label('dob', 'D.O.B', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::date('dob','',array('class' => 'form-control')) !!}
+                                {!! Form::date('dob',$user->dob,array('class' => 'form-control')) !!}
                             </div>
                         </div>
 
@@ -78,7 +79,7 @@
                         <div class="form-group">
                             {!! Form::label('mobile', 'Mobile', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('mobile', '',array('class' => 'form-control','placeholder' => '9999999999')) !!}
+                                {!! Form::text('mobile',$user->mobile,array('class' => 'form-control','placeholder' => '9999999999')) !!}
                             </div>
                         </div>
 
@@ -86,7 +87,7 @@
                         <div class="form-group">
                             {!! Form::label('landline', 'Landline', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('landline', '',array('class' => 'form-control','placeholder' => '9999999999')) !!}
+                                {!! Form::text('landline', $user->landline,array('class' => 'form-control','placeholder' => '9999999999')) !!}
                             </div>
                         </div>
 
@@ -94,7 +95,7 @@
                         <div class="form-group">
                             {!! Form::label('email', 'Email', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('email', '',array('class' => 'form-control','placeholder' => 'example@mail.com')) !!}
+                                {!! Form::text('email',$user->email,array('class' => 'form-control','placeholder' => 'example@mail.com')) !!}
                             </div>
                         </div>
 
@@ -115,7 +116,7 @@
                                 {!! Form::label('married', 'Married') !!}
 
 
-                                {!! Form::radio('maritalStatus', 'unmarried','',array('id' => 'unmarried')) !!}
+                                {!! Form::radio('maritalStatus', 'unmarried',$user->isUnmarried,array('id' => 'unmarried')) !!}
                                 {!! Form::label('unmarried', 'Unmarried') !!}
                             </div>
                         </div>
@@ -129,7 +130,7 @@
                                 {!! Form::label('employed', 'Employed') !!}
 
 
-                                {!! Form::radio('employment', 'unemployed','',array('id' => 'unemployed')) !!}
+                                {!! Form::radio('employment', 'unemployed',$user->isUnemployed,array('id' => 'unemployed')) !!}
                                 {!! Form::label('unemployed', 'Unemployed') !!}
                             </div>
                         </div>
@@ -138,14 +139,14 @@
                         <div class="form-group">
                             {!! Form::label('employer', 'Employer', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('employer', '',array('class' => 'form-control','placeholder' => 'Employer')) !!}
+                                {!! Form::text('employer',$user->employer,array('class' => 'form-control','placeholder' => 'Employer')) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('stackId', 'StackoverflowId', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('stackId', '',array('class' => 'form-control','placeholder' => 'StackOverflow Id')) !!}
+                                {!! Form::text('stackId',$user->stackId,array('class' => 'form-control','placeholder' => 'StackOverflow Id')) !!}
                             </div>
                         </div>
 
@@ -154,6 +155,9 @@
                             {!! Form::label('photo', 'Photo', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
                                 {!! Form::file('photo') !!}
+                                @if ( $user->photo != '' )
+                                    <img src="/images/{{ $user->photo }} " alt="profile pic"  height="100px" width="100px">
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -168,7 +172,7 @@
                         <div class="form-group">
                             {!! Form::label('residenceStreet', 'Street', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('residenceStreet','',['class' => 'form-control', 'placeholder' => 'Street']) !!}
+                                {!! Form::text('residenceStreet',$user->residenceStreet,['class' => 'form-control', 'placeholder' => 'Street']) !!}
                             </div>
                         </div>
 
@@ -176,7 +180,7 @@
                         <div class="form-group">
                             {!! Form::label('residenceCity', 'City', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('residenceCity','',['class' => 'form-control', 'placeholder' => 'City']) !!}
+                                {!! Form::text('residenceCity',$user->residenceCity,['class' => 'form-control', 'placeholder' => 'City']) !!}
                             </div>
                         </div>
 
@@ -184,7 +188,7 @@
                         <div class="form-group">
                             {!! Form::label('residenceState', 'State', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!!  Form::select('residenceState',config('constants.states'), '',['class' => 'form-control']) !!}
+                                {!!  Form::select('residenceState',config('constants.states'), $user->residenceState,['class' => 'form-control']) !!}
                             </div>
                         </div>
 
@@ -192,7 +196,7 @@
                         <div class="form-group">
                             {!! Form::label('residenceZip', 'Zip', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('residenceZip','',['class' => 'form-control', 'placeholder' => 'Zip']) !!}
+                                {!! Form::text('residenceZip',$user->residenceZip,['class' => 'form-control', 'placeholder' => 'Zip']) !!}
                             </div>
                         </div>
 
@@ -200,7 +204,7 @@
                         <div class="form-group">
                             {!! Form::label('residenceFax', 'Fax', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('residenceFax','',['class' => 'form-control', 'placeholder' => 'Fax']) !!}
+                                {!! Form::text('residenceFax',$user->residenceFax,['class' => 'form-control', 'placeholder' => 'Fax']) !!}
                             </div>
                         </div>
                     </div>
@@ -214,7 +218,7 @@
                         <div class="form-group">
                             {!! Form::label('officeStreet', 'Street', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('officeStreet','',['class' => 'form-control', 'placeholder' => 'Street']) !!}
+                                {!! Form::text('officeStreet',$user->officeStreet,['class' => 'form-control', 'placeholder' => 'Street']) !!}
                             </div>
                         </div>
 
@@ -222,7 +226,7 @@
                         <div class="form-group">
                             {!! Form::label('officeCity', 'City', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('officeCity','',['class' => 'form-control', 'placeholder' => 'City']) !!}
+                                {!! Form::text('officeCity',$user->officeCity,['class' => 'form-control', 'placeholder' => 'City']) !!}
                             </div>
                         </div>
 
@@ -230,7 +234,7 @@
                         <div class="form-group">
                             {!! Form::label('officeState', 'State', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!!  Form::select('officeState',config('constants.states'), '',['class' => 'form-control']) !!}
+                                {!!  Form::select('officeState',config('constants.states'),$user->officeState,['class' => 'form-control']) !!}
                             </div>
                         </div>
 
@@ -238,7 +242,7 @@
                         <div class="form-group">
                             {!! Form::label('officeZip', 'Zip', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('officeZip','',['class' => 'form-control', 'placeholder' => 'Zip']) !!}
+                                {!! Form::text('officeZip',$user->officeZip,['class' => 'form-control', 'placeholder' => 'Zip']) !!}
                             </div>
                         </div>
 
@@ -246,7 +250,7 @@
                         <div class="form-group">
                             {!! Form::label('officeFax', 'Fax', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!! Form::text('officeFax','',['class' => 'form-control', 'placeholder' => 'Fax']) !!}
+                                {!! Form::text('officeFax',$user->officeFax,['class' => 'form-control', 'placeholder' => 'Fax']) !!}
                             </div>
                         </div>
                     </div>
@@ -266,7 +270,7 @@
                                 <div class="form-group">
                                     {!! Form::label('note', 'Note',  array('class' => 'col-md-3 control-label')) !!}
                                     <div class="col-md-7">
-                                        {!! Form::textarea('note','',['rows' => '3','class' => 'form-control', 'placeholder' => 'Note']) !!}
+                                        {!! Form::textarea('note',$user->note,['rows' => '3','class' => 'form-control', 'placeholder' => 'Note']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -278,25 +282,25 @@
                                     </div>
                                     <div class="col-xs-9 col-sm-8 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2">
                                         <div class="checkbox-inline">
-                                            {!! Form::checkbox('commMed[]','mail','',array('id' => 'mail') )!!}
+                                            {!! Form::checkbox('commMed[]','mail',$user->commEmail,array('id' => 'mail') )!!}
                                             {!! Form::label('mail', 'Mail') !!}
                                         </div>
 
                                         <div class="checkbox-inline">
-                                            {!! Form::checkbox('commMed[]','phone','',array('id' => 'phone') )!!}
+                                            {!! Form::checkbox('commMed[]','phone',$user->call,array('id' => 'phone') )!!}
                                             {!! Form::label('phone', 'Phone') !!}
                                         </div>
 
                                         <div class="checkbox-inline">
-                                            {!! Form::checkbox('commMed[]','msg','',array('id' => 'msg') )!!}
+                                            {!! Form::checkbox('commMed[]','msg',$user->msg,array('id' => 'msg') )!!}
                                             {!! Form::label('msg', 'Msg') !!}
                                         </div>
 
                                         <div class="checkbox-inline">
-                                            {!! Form::checkbox('commMed[]','any','',array('id' => 'any') )!!}
+                                            {!! Form::checkbox('commMed[]','any',$user->any,array('id' => 'any') )!!}
                                             {!! Form::label('any', 'Any') !!}
                                         </div>
-
+                                        {!! Form::hidden('id', $user->id) !!}
                                     </div>
                                 </div>
                             </div>
@@ -309,7 +313,7 @@
             <div class="col-sm-offset-3 col-sm-6">
                 <!-- Add Task Submit Button -->
                 <button type="submit" class="btn btn-primary">
-                    Register
+                    Submit
                 </button>
 
                 <!-- Add Task Reset Button -->

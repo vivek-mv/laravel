@@ -29,11 +29,17 @@ class Address extends Model
      * @param request object
      * @return boolean
      */
-    public static function add($request,$employee_id) {
+    public static function add($request, $employee_id, $isUpdate = false) {
 
         try{
-            // Insert Residence Address
-            $address = new Address;
+
+            // Check for request type : Create new or update exisitng
+            if ( $isUpdate ) {
+                $address = Address::where('employee_id',$employee_id)->where('type',0)->first();
+            } else {
+                // Insert Residence Address
+                $address = new Address;
+            }
             $address->employee_id = $employee_id;
             $address->type = 0;
             $address->street = $request->residenceStreet;
@@ -43,8 +49,14 @@ class Address extends Model
             $address->fax = $request->residenceFax;
             $address->save();
 
-            //Insert Office Address
-            $address = new Address;
+            // Check for request type : Create new or update exisitng
+            if ( $isUpdate ) {
+                $address = Address::where('employee_id', $employee_id)->where('type',1)->first();
+            } else {
+                // Insert Residence Address
+                $address = new Address;
+            }
+
             $address->employee_id = $employee_id;
             $address->type = 1;
             $address->street = $request->officeStreet;
