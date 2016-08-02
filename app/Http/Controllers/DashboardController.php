@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
+use App\Models\Helper;
 use App\Models\Permission;
 use App\Models\Resource;
 use App\Models\Role;
@@ -10,7 +10,6 @@ use App\Models\RoleResourcePermission;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Support\Facades\Crypt;
 
 /**
  * Show dashboard and manage permissions
@@ -35,7 +34,7 @@ class DashboardController extends Controller
     /**
      * Generate response for ajax calls to show user permissions
      * @param void
-     * @return view
+     * @return json
      */
     public function getPermissions() {
         $json = [];
@@ -44,6 +43,41 @@ class DashboardController extends Controller
         $json['permission'][] = Permission::get();
         $json['rrp'][] = RoleResourcePermission::get();
         return $json;
+    }
+
+    /**
+     * Get the action and accordingly change the permissions in the database
+     * @param Request Object
+     * @return view
+     */
+    public function setPermissions(Request $request) {
+
+        if ( $request->action == 'add' ) {
+            try{
+                $rrp = new RoleResourcePermission();
+                $rrp->role_id = $request->roleId;
+                $rrp->resource_id = $request->resourceId;
+                $rrp->permission_id = $request->permissionId;
+                $rrp->save();
+                return '{"success":1}';
+            } catch (\Exception $ex) {
+                Helper::log($ex);
+                return '{"success":0}';
+            }
+        } elseif( $request->action == 'delete' ) {
+            try{
+                RoleResourcePermission::where('role_id',$request->roleId)
+                    ->where('resource_id',$request->resourceId)
+                    ->where('permission_id',$request->permissionId)
+                    ->delete();
+                return '{"success":1}';
+            } catch (\Exception $ex) {
+                Helper::log($ex);
+                return '{"success":0}';
+            }
+
+            return $request->action;
+        }
     }
 }
 

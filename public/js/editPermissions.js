@@ -69,7 +69,7 @@ function sendPermissions(checkboxObj,isChecked) {
 
     //send ajax request to set the role, resource and permissions data
     $.ajax({
-        url: 'managePermissions.php',
+        url: 'dashboard/setPermissions',
         data: {
             code: 2,
             action:action,

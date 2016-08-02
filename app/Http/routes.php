@@ -69,7 +69,15 @@ Route::group(['middleware' => 'authenticateUser'], function () {
      */
     Route::post('do-update', ['as' => 'do-update', 'uses' => 'HelperController@doUpdate']);
 
+    /**
+     * Route to display all the available permissions in the dashboard
+     */
     Route::post('dashboard/getPermissions', 'DashboardController@getPermissions');
+
+    /**
+     * Route to change the permissions in the dashboard
+     */
+    Route::post('dashboard/setPermissions', 'DashboardController@setPermissions');
 });
 
 
