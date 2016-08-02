@@ -77,6 +77,13 @@
     </div>
 @endif
 
+<!-- Message for Add user success -->
+@if ( Session::get('addUser') == '1' )
+
+    <div class="alert alert-success">
+        <strong>User successfully added</strong>
+    </div>
+@endif
 
 
 

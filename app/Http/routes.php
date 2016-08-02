@@ -58,7 +58,7 @@ Route::group(['middleware' => 'authenticateUser'], function () {
 
     Route::get('/details', 'DatatablesController@getIndex');
 
-    Route::get('dashboard', 'DashboardController@showDashboard');
+    Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'DashboardController@showDashboard']);
 
     Route::get('delete/{id}','HelperController@delete');
 
@@ -78,6 +78,11 @@ Route::group(['middleware' => 'authenticateUser'], function () {
      * Route to change the permissions in the dashboard
      */
     Route::post('dashboard/setPermissions', 'DashboardController@setPermissions');
+
+    /**
+     * Route to add new user
+     */
+    Route::post('dashboard/addUser', 'DashboardController@addUser');
 });
 
 

@@ -43,7 +43,7 @@ class RegistrationController extends Controller
      * @return View
      */
     public function doRegister(Request $request)
-    {
+    {   
         // If all the input fields are valid then proceed and register the user
         if ( $this->doValidation($request) ) {
 
@@ -195,20 +195,30 @@ class RegistrationController extends Controller
      * @param String
      * @return void
      */
-    public function sendEmail($emailAddress,$employeeId) {
+    public function sendEmail($emailAddress, $employeeId, $isAddUser = false) {
 
         $randomString = $this->generateRandomString();
 
         // Store the verification code in the database
         $employee = Employee::find($employeeId);
         $employee->verificationCode = $randomString;
-        $employee->save();
 
+        if ( $isAddUser ) {
+            $employee->password = bcrypt(substr($randomString,9));
+        }
+        $employee->save();
         // Send mail
-        Mail::send('email.activateEmail', ['code' => $randomString,'email' => Crypt::encrypt($emailAddress)], function ($message) use($emailAddress) {
-            $message->from('vivek.m@mindfiresolutions.com','mfsi');
-            $message->to($emailAddress, $name = null);
-            $message->subject('Account Activation');
+        Mail::send('email.activateEmail', [
+            'code' => $randomString,
+            'email' => Crypt::encrypt($emailAddress),
+            'isAddUser' => $isAddUser,
+            'emailAddress' => $emailAddress,
+            'password' => substr($randomString,9)
+        ],
+        function ($message) use($emailAddress) {
+        $message->from('vivek.m@mindfiresolutions.com','mfsi');
+        $message->to($emailAddress, $name = null);
+        $message->subject('Account Activation');
         });
     }
 

@@ -47,11 +47,12 @@ class HelperController extends Controller
 
     /**
      * Show the update view
-     * @param String
+     * @param String $id
      * @return html view
      */
     public function update($id) {
         $userId = $id;
+
         // Query for displaying employee details
         $user =  DB::table('employees')
             ->join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
@@ -89,6 +90,7 @@ class HelperController extends Controller
         } else {
             $user->isOthers = '';
         }
+
         if ( $user->dob == '0000-00-00' ) {
             $user->dob = '';
         }
@@ -128,6 +130,7 @@ class HelperController extends Controller
         } else {
             $user->any = '';
         }
+
         return view('registration')->with('user',$user)->with('route','do-update');
     }
 

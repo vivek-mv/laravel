@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
+use App\Models\CommMedium;
+use App\Models\Employee;
 use App\Models\Helper;
 use App\Models\Permission;
 use App\Models\Resource;
@@ -65,6 +68,7 @@ class DashboardController extends Controller
                 return '{"success":0}';
             }
         } elseif( $request->action == 'delete' ) {
+
             try{
                 RoleResourcePermission::where('role_id',$request->roleId)
                     ->where('resource_id',$request->resourceId)
@@ -78,6 +82,67 @@ class DashboardController extends Controller
 
             return $request->action;
         }
+    }
+
+    /**
+     * Process the input fields from the add user form and add the user in database
+     * and send an activation link to the user's email
+     * @param Request $request
+     */
+    public function addUser(Request $request) {
+        // Apply validation rules
+        $this->validate($request, [
+            'firstName' => 'required|min:1|max:11|alpha',
+            'email' => 'email|required|max:50|unique:employees,email',
+            'password' => 'required|alpha_num|min:5|max:11'
+        ]);
+        try{
+            // Add employee data
+            $insertEmployee = Employee::add($request);
+
+            // If employee details are successfully inserted then proceed
+            if ( $insertEmployee['success'] ) {
+
+                $employeeId = $insertEmployee['employee_id'];
+
+                if ( Address::add($request,$employeeId) ) {
+
+                    if ( CommMedium::add($request,$employeeId) ) {
+                        try {
+
+                            // Send email to the user
+                            $rc = new RegistrationController();
+                            $rc->sendEmail($request->email,$employeeId,true);
+                            return redirect()->route('dashboard')->with('addUser','1');
+                        }
+                        catch (\Exception $ex) {
+                            Helper::log($ex);
+                            CommMedium::deleteCommMedium($employeeId);
+                            Address::deleteAddress($employeeId);
+                            Employee::deleteEmployee($employeeId);
+                            return redirect()->route('dashboard')->with('addUser','0');
+                        }
+
+                    } else {
+                        Address::deleteAddress($employeeId);
+                        Employee::deleteEmployee($employeeId);
+                        return redirect()->route('dashboard')->with('addUser','0');
+                    }
+
+                } else {
+                    Employee::deleteEmployee($employeeId);
+                    return redirect()->route('dashboard')->with('addUser','0');
+                }
+
+            } else {
+                return redirect()->route('dashboard')->with('addUser','0');
+            }
+        }
+        catch (\Exception $ex) {
+            Helper::log($ex);
+            return redirect()->route('dashboard')->with('addUser','0');
+        }
+
     }
 }
 

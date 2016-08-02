@@ -64,12 +64,22 @@ class AuthenticateUser
             return redirect()->route('home')->with('unauthorised',1);
         }
 
+        // Check whether user has edit permissions on dashboard page
         if ( $resource == 'dashboard' && isset(explode('/',$request->getPathInfo())[2]) ) {
             if ( explode('/',$request->getPathInfo())[2] == 'getPermissions' ) {
                 if ( !Helper::checkPermissions($resource,'edit') ) {
                     return response()->json(['error_code' => 403]);
                 }
            }
+        }
+
+        // Check whether user has add new user permissions on dashboard page
+        if ( $resource == 'dashboard' && isset(explode('/',$request->getPathInfo())[2]) ) {
+            if ( explode('/',$request->getPathInfo())[2] == 'addUser' ) {
+                if ( !Helper::checkPermissions($resource,'add') ) {
+                    return redirect()->route('dashboard')->with('unauthorised',1);
+                }
+            }
         }
 
         // If user is authenticated and authorised , then proceed further
