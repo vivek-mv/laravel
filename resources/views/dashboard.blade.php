@@ -11,8 +11,7 @@
                 <button id="add" class="btn btn-primary" style="margin-top: 3%;">Add New User</button>
             </div>
 
-            <div id="showUI" class="col-md-10 ">
-
-            </div>
+            <span id="showMessage" style="background-color: #ddffdd"></span>
+            <div id="showUI" class="col-md-10 "></div>
         </div>
 @endsection

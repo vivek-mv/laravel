@@ -64,6 +64,14 @@ class AuthenticateUser
             return redirect()->route('home')->with('unauthorised',1);
         }
 
+        if ( $resource == 'dashboard' && isset(explode('/',$request->getPathInfo())[2]) ) {
+            if ( explode('/',$request->getPathInfo())[2] == 'getPermissions' ) {
+                if ( !Helper::checkPermissions($resource,'edit') ) {
+                    return response()->json(['error_code' => 403]);
+                }
+           }
+        }
+
         // If user is authenticated and authorised , then proceed further
         return $next($request);
     }

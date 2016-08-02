@@ -14,14 +14,12 @@ function display() {
         },
         type: "POST",
         success: function (response) {
-            if ( response.error_code === '401') {
-                alert('You are logged out. Please login again ');
-                location.reload();
+            if ( response.error_code == '403') {
+                showMessage('<h3 style="color: red">Sorry you are not authorised to edit permissions</h3>');
             }else {
                 displayRRP(response);
                 selectCheckbox(response.rrp[0]);
                 checkboxResponseObj = response.rrp;
-
             }
 
         }
@@ -81,9 +79,21 @@ function sendPermissions(checkboxObj,isChecked) {
         dataType : 'json',
         type: "POST",
         success: function (response) {
-            if ( response.error_code === '401') {
-                alert('You are logged out. Please login again ');
-                location.reload();
+            if ( response.error_code == '403' ) {
+
+                showMessage('<h3 style="color: red">Sorry you are not authorised to edit permissions</h3>');
+
+            }else if ( response.success == '1' ) {
+
+                $('#showUI').empty();
+                display();
+                showMessage('<h3 style="color: darkgrey">Permissions Changed Successfully</h3>');
+
+            } else if ( response.success == '0' ) {
+                $('#showUI').empty();
+
+                display();
+                showMessage('<h3 style="color: red">Operation Failed</h3>');
             }
         }
     });
@@ -127,6 +137,11 @@ function displayRRP(response) {
     });
 
 
+}
+
+function showMessage(msg) {
+    $('#showMessage').html(msg);
+    $('#showMessage').delay(200).fadeIn().delay(1000).fadeOut();
 }
 
 $(document).ready(function () {
