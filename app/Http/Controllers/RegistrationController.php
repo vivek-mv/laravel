@@ -195,7 +195,7 @@ class RegistrationController extends Controller
      * @param String
      * @return void
      */
-    public function sendEmail($emailAddress, $employeeId, $isAddUser = false) {
+    public function sendEmail($emailAddress, $employeeId, $isAddUser = false, $isReset = false) {
 
         $randomString = $this->generateRandomString();
 
@@ -213,7 +213,8 @@ class RegistrationController extends Controller
             'email' => Crypt::encrypt($emailAddress),
             'isAddUser' => $isAddUser,
             'emailAddress' => $emailAddress,
-            'password' => substr($randomString,9)
+            'password' => substr($randomString,9),
+            'isReset' => $isReset
         ],
         function ($message) use($emailAddress) {
         $message->from('vivek.m@mindfiresolutions.com','mfsi');

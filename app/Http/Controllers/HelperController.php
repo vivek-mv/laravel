@@ -165,5 +165,53 @@ class HelperController extends Controller
             return redirect()->route('home')->with('updateFailed','1');
         }
     }
+
+    /**
+     * Show reset password page
+     *
+     * @param  Object
+     */
+    public function showReset()
+    {
+        return view('resetPassword');
+    }
+
+    /**
+     * Check for valid name and email and process the reset
+     *
+     * @param  Object
+     */
+    public function doReset(Request $request)
+    {
+        // Apply validation rules
+        $this->validate($request, [
+            'firstName' => 'required|min:1|max:11|alpha',
+            'email' => 'email|required|max:50'
+        ]);
+
+        $user = Employee::where('firstName',$request->firstName)
+            ->where('email',$request->email)
+            ->where('isActive','yes')
+            ->get();
+
+        $isUserPresent = $user->count();
+
+        if ( $isUserPresent == '1' ) {
+            try {
+                $employeeId = $user->first()->id;
+
+                // Send email to the user
+                $rc = new RegistrationController();
+                $rc->sendEmail($request->email,$employeeId,false,true);
+                return redirect()->route('resetPassword')->with('resetSuccess','1');
+            }
+            catch (\Exception $ex) {
+                Helper::log($ex);
+                return redirect()->route('resetPassword')->with('restFailed','1');
+            }
+        } else {
+            return redirect()->route('resetPassword')->with('resetDetails','0');
+        }
+    }
 }
 

@@ -13,6 +13,7 @@ use App\Models\RoleResourcePermission;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Show dashboard and manage permissions
@@ -93,7 +94,7 @@ class DashboardController extends Controller
         // Apply validation rules
         $this->validate($request, [
             'firstName' => 'required|min:1|max:11|alpha',
-            'email' => 'email|required|max:50|unique:employees,email',
+            'email' => 'email|required|max:50|unique:employees,email,'.Auth::user()->id,
             'password' => 'required|alpha_num|min:5|max:11'
         ]);
         try{

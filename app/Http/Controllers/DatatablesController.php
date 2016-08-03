@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 use App\Http\Requests;
+use URL;
 
 class DatatablesController extends Controller
 {
@@ -56,7 +57,7 @@ class DatatablesController extends Controller
 
                         // Show edit only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
-                            $edit = '<li><a href="/update/'.$query->id.'"><i class="icon-pencil"></i> Edit</a></li>';
+                            $edit = '<li><a href="'.URL::to('update/' .$query->id).'"><i class="icon-pencil"></i> Edit</a></li>';
                         }
                     }
 
@@ -65,7 +66,7 @@ class DatatablesController extends Controller
 
                         // Show delete only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
-                            $delete = '<li><a href="/delete/'.$query->id.'"><i class="icon-trash"></i>Delete</a></li>';
+                            $delete = '<li><a href="'.URL::to('delete/' .$query->id).'"><i class="icon-trash"></i>Delete</a></li>';
                         }
                     }
 
@@ -95,7 +96,7 @@ class DatatablesController extends Controller
                 })
                 ->editColumn('photo',function ($query){
                     if ( !$query->photo == '' ) {
-                        return '<img src="/images/'.$query->photo.'" atl="profile_pic" height="50px" width="50px">';
+                        return '<img src="'. asset('/images/'.$query->photo) .'" atl="profile_pic" height="50px" width="50px">';
                     }
                     return $query->photo;
                 })

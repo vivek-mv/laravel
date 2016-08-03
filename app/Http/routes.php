@@ -41,7 +41,17 @@ Route::post('do-login', ['as' => 'do-login', 'uses' => 'LoginController@doLogin'
 /**
  * Route to verify user's email
  */
-Route::get('verifyUser/{email}/{activationCode}', ['as' => 'verifyUser', 'uses' => 'VerifyUserController@verifyUser']);
+Route::get('verifyUser/{email}/{activationCode}/{isReset?}', ['as' => 'verifyUser', 'uses' => 'VerifyUserController@verifyUser']);
+
+/**
+ * Route to show reset password
+ */
+Route::get('resetPassword', ['as' => 'resetPassword', 'uses' => 'HelperController@showReset']);
+
+/**
+ * Route to do reset password
+ */
+Route::post('resetPassword/do-reset', ['as' => 'do-reset', 'uses' => 'HelperController@doReset']);
 
 /**
  * Logout the user

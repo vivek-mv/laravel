@@ -35,6 +35,7 @@
                         </div>
                     </fieldset>
                 {!! Form::close() !!}
+                <a href="{{ URL::to('resetPassword') }}" class="pull-right" >Forgot Password ? </a>
             </div>
         </div>
     </div>

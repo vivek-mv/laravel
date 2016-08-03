@@ -85,6 +85,37 @@
     </div>
 @endif
 
+<!-- Message for invalid reset details -->
+@if ( Session::get('resetDetails') == '0' )
+
+    <div class="alert alert-danger">
+        <strong>Invalid First Name or Email</strong>
+    </div>
+@endif
+
+<!-- Message for reset failed -->
+@if ( Session::get('resetFailed') == '1' )
+
+    <div class="alert alert-danger">
+        <strong>Sorry! We have encountered some problem. Please try after some time.</strong>
+    </div>
+@endif
+
+<!-- Message for reset success -->
+@if ( Session::get('resetSuccess') == '1' )
+
+    <div class="alert alert-success">
+        <strong>We have sent a link to your email,please click on it and update your password.</strong>
+    </div>
+@endif
+
+<!-- Message for reset password -->
+@if ( Session::get('resetMessage') == '1' )
+
+    <div class="alert alert-success">
+        <strong>Please reset your password</strong>
+    </div>
+@endif
 
 
 
