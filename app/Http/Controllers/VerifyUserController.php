@@ -33,10 +33,12 @@ class VerifyUserController extends Controller
 
             // If user is present then activate the account and redirect to login page
             if ( $user ) {
+                
                 // If the request is to reset password
                 if ( $isReset === 'true' ) {
                     Auth::loginUsingId($user->id);
                     return redirect('update/'.$user->id)->with('resetMessage','1');
+
                 }else {
                     // If the request is to verify a new user
                     $employee = Employee::find($user->id);

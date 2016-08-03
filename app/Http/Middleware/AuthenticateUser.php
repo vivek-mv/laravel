@@ -23,8 +23,7 @@ class AuthenticateUser
 
         // If the user is not logged in then redirect to login page
         if ( !Auth::check() ) {
-
-            // If ( Helper::checkPermission($resource, $action) )
+            
             return redirect()->route('login');
         }
 
