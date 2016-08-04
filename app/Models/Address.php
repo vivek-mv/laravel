@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @author vivek
  * @link void
  */
+
 class Address extends Model
 {
     /**
@@ -21,6 +22,7 @@ class Address extends Model
      *
      * @var string
      */
+    
     protected $table = 'address';
 
     /**
@@ -29,14 +31,17 @@ class Address extends Model
      * @param request object
      * @return boolean
      */
+    
     public static function add($request, $employee_id, $isUpdate = false) {
 
         try{
 
             // Check for request type : Create new or update exisitng
             if ( $isUpdate ) {
+                
                 $address = Address::where('employee_id',$employee_id)->where('type',0)->first();
             } else {
+                
                 // Insert Residence Address
                 $address = new Address;
             }
@@ -51,8 +56,10 @@ class Address extends Model
 
             // Check for request type : Create new or update exisitng
             if ( $isUpdate ) {
+                
                 $address = Address::where('employee_id', $employee_id)->where('type',1)->first();
             } else {
+                
                 // Insert Residence Address
                 $address = new Address;
             }

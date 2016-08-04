@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <img id="loaderImg" class="col-md-offset-5" src="/images/ajax-loader.gif">
+                        <img id="loaderImg" class="col-md-offset-5" src="{{ URL('/images/ajax-loader.gif') }}">
                         <div class="panel panel-info" style="padding: 1%">
                             <div class="panel-heading">
                                 <h3 id="display-name" class="panel-title"></h3>

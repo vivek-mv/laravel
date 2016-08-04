@@ -6,6 +6,16 @@ use App\Models\Helper;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Processes the Authentication and Authorisation
+ * @access public
+ * @package App\Http\Controllers
+ * @subpackage void
+ * @category void
+ * @author vivek
+ * @link void
+ */
+
 class AuthenticateUser
 {
     /**
@@ -15,6 +25,7 @@ class AuthenticateUser
      * @param  \Closure  $next
      * @return mixed
      */
+
     public function handle($request, Closure $next)
     {
         // Requested resource
@@ -22,17 +33,22 @@ class AuthenticateUser
         $action = 'view';
 
         // If the user is not logged in then redirect to login page
+
         if ( !Auth::check() ) {
+
             
             return redirect()->route('login');
         }
 
         // If the request is for deleting account
         if ( $resource == 'delete' ) {
+
             if ( (Auth::user()->id == $request->id) ||  (Auth::user()->roleId ==  2) ) {
+
                 $resource = 'details';
                 $action = 'delete';
             } else {
+
                 return redirect()->route('home')->with('unauthorised',1);
             }
 
@@ -40,33 +56,43 @@ class AuthenticateUser
 
         // If the request is for updating account
         if ( $resource == 'update' ) {
+
             if ( (Auth::user()->id == $request->id) ||  (Auth::user()->roleId ==  2) ) {
+
                 $resource = 'update';
                 $action = 'view';
             } else {
+
                 return redirect()->route('home')->with('unauthorised','1');
             }
 
         }
 
         if ( $resource == 'do-update' ) {
+
             if ( (Auth::user()->id == $request->id) ||  (Auth::user()->roleId ==  2) ) {
+
                 $resource = 'update';
                 $action = 'edit';
             } else {
+
                 return redirect()->route('home')->with('unauthorised','1');
             }
         }
 
         // Check for user authorisation
         if ( !Helper::checkPermissions($resource, $action) ) {
+
             return redirect()->route('home')->with('unauthorised',1);
         }
 
         // Check whether user has edit permissions on dashboard page
         if ( $resource == 'dashboard' && isset(explode('/',$request->getPathInfo())[2]) ) {
+
             if ( explode('/',$request->getPathInfo())[2] == 'getPermissions' ) {
+
                 if ( !Helper::checkPermissions($resource,'edit') ) {
+
                     return response()->json(['error_code' => 403]);
                 }
            }
@@ -74,8 +100,11 @@ class AuthenticateUser
 
         // Check whether user has add new user permissions on dashboard page
         if ( $resource == 'dashboard' && isset(explode('/',$request->getPathInfo())[2]) ) {
+
             if ( explode('/',$request->getPathInfo())[2] == 'addUser' ) {
+
                 if ( !Helper::checkPermissions($resource,'add') ) {
+
                     return redirect()->route('dashboard')->with('unauthorised',1);
                 }
             }

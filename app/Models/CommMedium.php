@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @author vivek
  * @link void
  */
+
 class CommMedium extends Model
 {
     /**
@@ -21,6 +22,7 @@ class CommMedium extends Model
      *
      * @var string
      */
+    
     protected $table = 'commMedium';
 
     /**
@@ -30,17 +32,21 @@ class CommMedium extends Model
      * @param String
      * @return boolean
      */
+    
     public static function add($request, $employee_id,  $isUpdate = false) {
 
         if ( $request->commMed == null ) {
+            
             $request->commMed = [];
         }
 
         try{
             // Check for request type : New user or Update current user
             if ( $isUpdate ) {
+                
                 $commMedium = CommMedium::where('employee_id', $employee_id)->first();
             } else {
+                
                 // Insert Communication Medium
                 $commMedium = new CommMedium;
             }
@@ -65,6 +71,7 @@ class CommMedium extends Model
      * @param String
      * @return void
      */
+    
     public static function deleteCommMedium($employeeId) {
 
         CommMedium::where('employee_id', $employeeId)->delete();

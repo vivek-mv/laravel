@@ -8,11 +8,17 @@ $(document).ready(function(){
 
 });
 
+/**
+ * Display the Stackoverflow account info
+ * @param stackUserId
+ */
 function displayStackInfo(stackUserId) {
     if ( stackUserId == '' ) {
+
         $('#stackNoAccount').css('display','inline');
         $('.modal-body').css('display','none');
     } else {
+
         $('#stackNoAccount').css('display','none');
         $('#stackInvalidAccount').css('display','none');
         $('.modal-body').css('display','inline');
@@ -27,6 +33,7 @@ function displayStackInfo(stackUserId) {
                     $('#loaderImg').css('display','none');
                     $('#stackInvalidAccount').css('display','inline');
                 } else {
+
                     $('#display-name').html(response.items[0].display_name);
                     $('#profile_pic').attr('src',response.items[0].profile_image);
                     $('#age').html(response.items[0].age);

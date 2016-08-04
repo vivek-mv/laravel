@@ -21,7 +21,7 @@
                         <div class="form-group">
                             {!! Form::label('prefix', 'Prefix', array('class' => 'col-md-3 control-label')) !!}
                             <div class="col-md-7">
-                                {!!  Form::select('prefix',array('mr' => 'Mr', 'miss' => 'Miss'), '',['class' => 'form-control']) !!}
+                                {!!  Form::select('prefix',array('mr' => 'Mr', 'miss' => 'Miss'), $user->prefix,['class' => 'form-control']) !!}
                             </div>
                         </div>
 

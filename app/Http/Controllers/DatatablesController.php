@@ -12,6 +12,16 @@ use Yajra\Datatables\Datatables;
 use App\Http\Requests;
 use URL;
 
+/**
+ * Handles the user details display page
+ * @access public
+ * @package App\Http\Controllers
+ * @subpackage void
+ * @category void
+ * @author vivek
+ * @link void
+ */
+
 class DatatablesController extends Controller
 {
     /**
@@ -20,6 +30,7 @@ class DatatablesController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    
     public function getIndex( Request $req )
     {
         if( $req->ajax() )

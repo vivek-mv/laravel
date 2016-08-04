@@ -20,27 +20,30 @@ use Illuminate\Support\Facades\Mail;
  * @author vivek
  * @link void
  */
+
 class RegistrationController extends Controller
 {
     /**
      * Show registration form
-     *
-     * @param  Object
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
+
     public function register(Request $request)
     {
         // If the user is logged in , then redirect to home page
         if ( !Auth::check() ) {
+
             return view('registration')->with('route','do-register')->with('user',$request);
         }
+
         return redirect()->route('home');
     }
 
     /**
      * Process registration form
-     *
-     * @param  Object
-     * @return View
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function doRegister(Request $request)
     {   
@@ -58,9 +61,11 @@ class RegistrationController extends Controller
                 if ( Address::add($request,$employeeId) ) {
 
                     if ( CommMedium::add($request,$employeeId) ) {
+
                         try {
                             // If all the details are successfully inserted then proceed to move photo to images dir.
                             if ( $request->hasFile('photo') ) {
+
                                 $image = $request->file('photo');
                                 $imageName = $employeeId.'_'.$image->getClientOriginalName();
                                 $employee = Employee::find($employeeId);
@@ -68,6 +73,7 @@ class RegistrationController extends Controller
                                 $employee->save();
                                 $image->move('images/',$imageName);
                             }
+
                             $this->sendEmail($request->email,$employeeId);
                             return redirect()->route('login')->with('message','1');
 
@@ -90,10 +96,12 @@ class RegistrationController extends Controller
                     }
                 } else {
 
+
                     Employee::deleteEmployee($employeeId);
                     return redirect()->route('register')->with('message','0');
                 }
             } else {
+
                 return redirect()->route('register')->with('message','0');
             }
         }
@@ -103,18 +111,19 @@ class RegistrationController extends Controller
 
     /**
      * Validates the input fields
-     *
-     * @param  Object
-     * @param String
-     * @return Boolean
+     * @param $request
+     * @param string $employeeId
+     * @return bool
      */
 
     public function doValidation($request,$employeeId = '') {
         $statesString = implode(',',array_values(config('constants.states')));
 
         if ( $employeeId === '' ) {
+
             $checkUniqueEmail = 'email|required|max:50|unique:employees,email';
         } else {
+
             $checkUniqueEmail = 'email|required|max:50|unique:employees,email,'.$employeeId;
         }
 
@@ -155,14 +164,14 @@ class RegistrationController extends Controller
             'employer' => 'alpha|max:25',
             'stackId' => 'regex:/^[0-9]+$/|max:100',
             'photo' => 'mimes:jpg,png,jpeg|max:2048',
-            'residenceStreet' => 'regex:/^[a-zA-Z0-9*() ]*$/',
-            'residenceCity' => 'regex:/^[a-zA-Z ]*$/',
+            'residenceStreet' => 'max:50|regex:/^[a-zA-Z0-9*() ]*$/',
+            'residenceCity' => 'max:50|regex:/^[a-zA-Z ]*$/',
             'residenceState' => 'required|in:'.$statesString,
             'residenceZip' => 'regex:/^[0-9]+$/|size:6',
             'residenceFax' => 'regex:/^[0-9]+$/|min:10|max:15',
-            'officeStreet' => 'regex:/^[a-zA-Z0-9*() ]*$/',
+            'officeStreet' => 'max:50|regex:/^[a-zA-Z0-9*() ]*$/',
             'officeState' => 'required|in:'.$statesString,
-            'officeCity' => 'regex:/^[a-zA-Z ]*$/',
+            'officeCity' => 'max:50|regex:/^[a-zA-Z ]*$/',
             'officeZip' => 'regex:/^[0-9]+$/|size:6',
             'officeFax' => 'regex:/^[0-9]+$/|min:10|max:15',
             'note' => 'max:150'
@@ -173,26 +182,28 @@ class RegistrationController extends Controller
 
     /**
      * Generate a random string for email verification
-     *
-     * @param  void
-     * @return String
+     * @param void
+     * @return string
      */
     public function generateRandomString() {
         $length = 16;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
+
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+
         return $randomString;
     }
 
     /**
      * Sends email to the user
-     *
-     * @param  String
-     * @param String
+     * @param $emailAddress
+     * @param $employeeId
+     * @param bool $isAddUser
+     * @param bool $isReset
      * @return void
      */
     public function sendEmail($emailAddress, $employeeId, $isAddUser = false, $isReset = false) {
@@ -204,9 +215,12 @@ class RegistrationController extends Controller
         $employee->verificationCode = $randomString;
 
         if ( $isAddUser ) {
+
             $employee->password = bcrypt(substr($randomString,9));
         }
+
         $employee->save();
+
         // Send mail
         Mail::send('email.activateEmail', [
             'code' => $randomString,
@@ -222,7 +236,4 @@ class RegistrationController extends Controller
         $message->subject('Account Activation');
         });
     }
-
-
-
 }

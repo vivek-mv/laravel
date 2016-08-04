@@ -11,5 +11,6 @@ class Resource extends Model
      *
      * @var string
      */
+    
     protected $table = 'resources';
 }

@@ -1,9 +1,12 @@
+
 var checkboxResponseObj;
+
 /**
  * Get the role,resource and permissions data
  * @param void
  * @retrun void
  */
+
 function display() {
     //send ajax request to get the role, resource and permissions data
     $.ajax({
@@ -14,9 +17,12 @@ function display() {
         },
         type: "POST",
         success: function (response) {
+
             if ( response.error_code == '403') {
+
                 showMessage('<h3 style="color: red">Sorry you are not authorised to edit permissions</h3>');
             }else {
+
                 displayRRP(response);
                 selectCheckbox(response.rrp[0]);
                 checkboxResponseObj = response.rrp;
@@ -32,20 +38,27 @@ function display() {
  * @param object
  * @retrun void
  */
+
 function selectCheckbox(rrpObj) {
 
     var getRoleId = $('#displayRole').val();
     var getResourceId = $('#displayResources').val();
+
     $.each($('.checkbox'),function () {
         $(this).prop('checked', false);
     });
+
     $.each($('.checkbox'),function () {
         var checkbox = this;
         var getPermissionId = this.value;
+
         $.each(rrpObj,function () {
+
             if ( (this.role_id == getRoleId)  && (this.resource_id == getResourceId) && (this.permission_id == getPermissionId) ) {
+
                 $(checkbox).prop('checked', true);
             }
+
         });
 
     });
@@ -56,12 +69,15 @@ function selectCheckbox(rrpObj) {
  * @param void
  * @retrun void
  */
+
 function sendPermissions(checkboxObj,isChecked) {
     var getRoleId = $('#displayRole').val();
     var getResourceId = $('#displayResources').val();
     var getPermissionId = checkboxObj.value;
     var action = 'delete';
+
     if ( isChecked ) {
+
         action = 'add';
     }
 
@@ -90,6 +106,7 @@ function sendPermissions(checkboxObj,isChecked) {
                 showMessage('<h3 style="color: darkgrey">Permissions Changed Successfully</h3>');
 
             } else if ( response.success == '0' ) {
+
                 $('#showUI').empty();
 
                 display();
@@ -104,22 +121,26 @@ function sendPermissions(checkboxObj,isChecked) {
  * @param json
  * @retrun void
  */
+
 function displayRRP(response) {
 
 
     $('#showUI').append('<div class="panel panel-default" style="width: 70%;"><div class="panel-heading" style="text-align: center;">ADMIN PANEL</div><div class="panel-body dashboard"></div></div>');
     $('.dashboard').append('<div id="formdiv" class="form-inline"></div>');
     $('#formdiv').append(' Role : <select id="displayRole" class="form-control"></select>');
+
     //Display roles
     $.each(response.role[0], function(role) {
         $('#displayRole').append($('<option>', {
             value: response.role[0][role].id,
             text : response.role[0][role].name
         }));
+
     });
 
     //Display resources
     $('#formdiv').append(' Resource : <select id="displayResources" class="form-control"></select>');
+
     $.each(response.resource[0], function(res) {
         $('#displayResources').append($('<option>', {
 
@@ -130,6 +151,7 @@ function displayRRP(response) {
 
     //Display permissions
     $('#formdiv').append(' Permissions : <div id="checkboxdiv" class="form-control"></div>');
+
     $.each(response.permission[0], function(per) {
         $('#checkboxdiv').append('&nbsp;&nbsp;&nbsp;');
         $('<input />', { type: 'checkbox', id:per, class:'checkbox', value: response.permission[0][per].id }).appendTo('#checkboxdiv');
@@ -138,6 +160,13 @@ function displayRRP(response) {
 
 
 }
+
+
+/**
+ * Show whether permission change was success or not
+ * @param string
+ * @retrun void
+ */
 
 function showMessage(msg) {
     $('#showMessage').html(msg);

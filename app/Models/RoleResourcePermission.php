@@ -11,5 +11,6 @@ class RoleResourcePermission extends Model
      *
      * @var string
      */
+    
     protected $table = 'role_resource_permission';
 }

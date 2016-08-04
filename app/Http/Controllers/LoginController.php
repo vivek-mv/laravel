@@ -21,21 +21,24 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @author vivek
  * @link void
  */
+
 class LoginController extends Controller implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
+
     /**
-     * Show Login form
-     *
-     * @param  Object
-     * @return html view
+     * Show login form
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function login(Request $request)
     {
         //If the user is logged in ,then redirect to home page,else show login page
         if ( Auth::check() ) {
+
             return redirect()->route('home');
         } else {
+
             return view('login');
         }
     }
@@ -44,8 +47,9 @@ class LoginController extends Controller implements AuthenticatableContract, Can
      * Process Login form and authenticate the user
      *
      * @param  Object
-     * @return html view
+     * @return \Illuminate\Http\RedirectResponse
      */
+
     public function doLogin(Request $request)
     {
         $this->validate($request, [
@@ -54,9 +58,11 @@ class LoginController extends Controller implements AuthenticatableContract, Can
         ]);
 
         if ( Auth::attempt(['email' => $request->email, 'password' => $request->password, 'isActive' => 'yes']) ) {
+
             // Authentication passed...
             return redirect()->route('home')->with('login_success','1');
         } else {
+
             return redirect()->route('login')->with('message','3');
         }
     }

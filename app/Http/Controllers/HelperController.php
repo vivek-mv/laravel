@@ -20,13 +20,15 @@ use Illuminate\Support\Facades\DB;
  * @author vivek
  * @link void
  */
+
 class HelperController extends Controller
 {
     /**
-     * Delete the user account
-     * @param String
-     * @return html view
+     *  Delete the user account
+     * @param String $id
+     * @return \Illuminate\Http\RedirectResponse
      */
+
     public function delete($id) {
         $userId = $id;
         try {
@@ -50,6 +52,7 @@ class HelperController extends Controller
      * @param String $id
      * @return html view
      */
+
     public function update($id) {
         $userId = $id;
 
@@ -77,57 +80,76 @@ class HelperController extends Controller
             ->first();
 
         if ( $user == null ) {
+
             return redirect('/');
         }
+
         if ( $user->gender == 'female' ) {
+
             $user->isFemale = true;
         } else {
+
             $user->isFemale = '';
         }
 
         if ( $user->gender == 'others' ) {
+
             $user->isOthers = true;
         } else {
+
             $user->isOthers = '';
         }
 
         if ( $user->dob == '0000-00-00' ) {
+
             $user->dob = '';
         }
 
         if ( $user->maritalStatus == 'unmarried' ) {
+
             $user->isUnmarried = true;
         } else {
+
             $user->isUnmarried = '';
         }
 
         if ( $user->employment == 'unemployed' ) {
+
             $user->isUnemployed = true;
         } else {
+
             $user->isUnemployed = '';
         }
 
         if ( $user->msg == '1' ) {
+
             $user->msg = true;
         } else {
+
             $user->msg = '';
         }
 
         if ( $user->commEmail == '1' ) {
+
             $user->commEmail = true;
         } else {
+
             $user->commEmail = '';
         }
 
         if ( $user->call == '1' ) {
+
             $user->call = true;
         } else {
+
             $user->call = '';
         }
 
         if ( $user->any == '1' ) {
+
             $user->any = true;
         } else {
+
             $user->any = '';
         }
 
@@ -139,6 +161,7 @@ class HelperController extends Controller
      * @param String
      * @return html view
      */
+    
     public function doUpdate(Request $request) {
 
         $registrationController = new RegistrationController();
@@ -152,16 +175,19 @@ class HelperController extends Controller
             try {
                 // If all the details are successfully updated then proceed to move photo to images dir.
                 if ( $request->hasFile('photo') ) {
+
                     $image = $request->file('photo');
                     $imageName = $request->id.'_'.$image->getClientOriginalName();
                     $image->move('images/',$imageName);
                 }
+
                 return redirect()->route('home')->with('updateSuccess','1');
             } catch (\Exception $ex) {
                 return redirect()->route('home')->with('updateFailed','1');
             }
 
         } else {
+            
             return redirect()->route('home')->with('updateFailed','1');
         }
     }
@@ -170,7 +196,9 @@ class HelperController extends Controller
      * Show reset password page
      *
      * @param  Object
+     * @return view
      */
+    
     public function showReset()
     {
         return view('resetPassword');
@@ -178,9 +206,10 @@ class HelperController extends Controller
 
     /**
      * Check for valid name and email and process the reset
-     *
-     * @param  Object
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
+    
     public function doReset(Request $request)
     {
         // Apply validation rules
@@ -197,6 +226,7 @@ class HelperController extends Controller
         $isUserPresent = $user->count();
 
         if ( $isUserPresent == '1' ) {
+
             try {
                 $employeeId = $user->first()->id;
 
@@ -210,6 +240,7 @@ class HelperController extends Controller
                 return redirect()->route('resetPassword')->with('restFailed','1');
             }
         } else {
+
             return redirect()->route('resetPassword')->with('resetDetails','0');
         }
     }

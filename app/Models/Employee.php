@@ -20,6 +20,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @author vivek
  * @link void
  */
+
 class Employee extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
@@ -29,6 +30,7 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
      *
      * @var string
      */
+
     protected $table = 'employees';
 
     /**
@@ -37,14 +39,17 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
      * @param request object
      * @return boolean
      */
+
     public static function add($request, $isUpdate = false, $userId = '') {
 
         try{
             // Check if the request is to create a new user or update an existing user
 
             if ( $isUpdate ) {
+
                 $employee = Employee::find($userId);
             } else {
+
                 // If the request is to create new user
                 $employee = new Employee;
             }
@@ -66,14 +71,18 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
 
                 // Delete the previous image if present when the request is for update
                 if ( $isUpdate ) {
+
                     if ( $employee->photo != '' ) {
+
                         unlink(getcwd().'/images/'.$employee->photo );
                     }
                 }
                 $employee->photo = $request->id.'_'.$request->photo->getClientOriginalName();
 
             } else {
+
                 if ( !$isUpdate ) {
+
                     $employee->photo = '';
                 }
             }
@@ -82,6 +91,7 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
 
             // If the request is for update, then only return true
             if ( $isUpdate ) {
+
                 return true;
             }
             return ['success' => true,'employee_id' => $employee->id];
@@ -99,6 +109,7 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
      * @param String
      * @return void
      */
+
     public static function deleteEmployee($employeeId) {
         Employee::destroy($employeeId);
     }

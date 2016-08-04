@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
  * @author vivek
  * @link void
  */
+
 class Helper extends Model
 {
     /**
@@ -23,6 +24,7 @@ class Helper extends Model
      * @param Exception Object
      * @return void
      */
+    
     public static function log($ex) {
         Log::error($ex);
     }
@@ -50,6 +52,7 @@ class Helper extends Model
                 ->where('resource_id',$resourceId)->where('permission_id',$adminPermissionId)->first();
 
             if ( ($responseUser != null) || ($responseAdmin != null) ) {
+                
                 return true;
             }
             
