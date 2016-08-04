@@ -45,6 +45,7 @@ class RegistrationController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
+
     public function doRegister(Request $request)
     {   
         // If all the input fields are valid then proceed and register the user

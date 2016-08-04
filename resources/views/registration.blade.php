@@ -156,7 +156,7 @@
                             <div class="col-md-7">
                                 {!! Form::file('photo') !!}
                                 @if ( $user->photo != '' )
-                                    <img src="/images/{{ $user->photo }} " alt="profile pic"  height="100px" width="100px">
+                                    <img src="{{ URL('/images/'.$user->photo) }} " alt="profile pic"  height="100px" width="100px">
                                 @endif
                             </div>
                         </div>

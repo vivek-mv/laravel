@@ -9,17 +9,13 @@
             <th>D.O.B</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>Marital Status</th>
-            <th>Employment</th>
-            <th>Residence Address</th>
-            <th>Office Address</th>
             <th>Photo</th>
             <th>Action</th>
         </tr>
         </thead>
     </table>
 
-    <!-- Modal -->
+    <!-- View Stackoverflow details Modal -->
     <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -98,6 +94,66 @@
             </div>
         </div>
     </div>
+
+    <!-- View User Details Modal -->
+    <div id="viewDetailsModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">User Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="panel panel-info" style="padding: 2%">
+                            <div class="panel-heading">
+                                <h3 id="display-employee-name" class="panel-title"></h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-lg-3 " align="center">
+                                        <img id="user_pic" alt="User Pic" src="" class="img-circle img-responsive">
+                                    </div>
+
+                                    <div class=" col-md-9 col-lg-9 ">
+                                        <table class="table table-user-information">
+                                            <tbody>
+                                            <tr>
+                                                <td>Marital Status</td>
+                                                <td id="marital_status"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Employment</td>
+                                                <td id="employment_status"></td>
+                                            </tr>
+                                            <tr>
+                                            <tr>
+                                                <td>Address (R)</td>
+                                                <td id="residence_address"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address (O)</td>
+                                                <td id="office_address"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 @stop
 
 @push('scripts')
@@ -114,10 +170,6 @@
                 { data: 'dob', name:'dob',bSearchable:false,bSortable:false },
                 { data: 'Phone', name:'Phone',bSearchable:false,bSortable:false},
                 { data: 'email', name: 'email'},
-                { data: 'maritalStatus', name:'maritalStatus',bSearchable:false,bSortable:false},
-                { data: 'employment', name:'employment',bSearchable:false,bSortable:false},
-                { data: 'residenceAddress', name:'residenceAddress',bSearchable:false,bSortable:false},
-                { data: 'officeAddress', name:'officeAddress',bSearchable:false,bSortable:false},
                 { data: 'photo', name: 'photo',bSearchable:false,bSortable:false},
                 { data: 'Action', name: 'Action',bSearchable:false,bSortable:false}
             ]

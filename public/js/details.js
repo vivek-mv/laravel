@@ -6,6 +6,11 @@ $(document).ready(function(){
         displayStackInfo(this.children[0].value);
     });
 
+    //Register event to display the user's info
+    $(document).on('click', '#viewUserDetails', function () {
+        displayDetails($(this).parent().children('.getEmployeeId').val())
+    });
+
 });
 
 /**
@@ -55,6 +60,25 @@ function displayStackInfo(stackUserId) {
             }
         });
     }
+}
+
+/**
+ * Display the user details in a modal
+ * @param employeeId
+ */
+
+function displayDetails(employeeId) {
+
+    $('.modal-body').css('display','inline');
+    $('.panel').show();
+    $('#display-employee-name').html($('#' + employeeId + '_name').val());
+    $('#user_pic').attr('src',$('#' + employeeId + '_photo').val());
+    $('#marital_status').html($('#' + employeeId + '_mStatus').val());
+    $('#employment_status').html($('#' + employeeId + '_employment').val());
+    $('#comm_medium').html($('#' + employeeId + '_commMedium').val());
+    $('#residence_address').html($('#' + employeeId + '_residenceAddress').val());
+    $('#office_address').html($('#' + employeeId + '_officeAddress').val());
+    $('#viewDetailsModal').modal('show');
 }
 
 
