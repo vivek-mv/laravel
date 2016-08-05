@@ -72,7 +72,8 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
                 // Delete the previous image if present when the request is for update
                 if ( $isUpdate ) {
 
-                    if ( $employee->photo != '' ) {
+                    if ( ($employee->photo != 'default_male.jpg') && ($employee->photo != 'default_female.jpg')
+                        && ($employee->photo != 'default_others.jpg') ) {
 
                         unlink(getcwd().'/images/'.$employee->photo );
                     }
@@ -90,7 +91,7 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
 
                         $employee->photo = 'default_female.jpg';
                     } else {
-                        
+
                         $employee->photo = 'default_others.jpg';
                     }
 
