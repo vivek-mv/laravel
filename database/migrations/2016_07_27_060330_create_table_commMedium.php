@@ -22,6 +22,7 @@ class CreateTableCommMedium extends Migration
             $table->string('any',1);
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->timestamps();
+            $table->softDeletes();
         });
 
     }

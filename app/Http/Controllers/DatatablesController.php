@@ -36,8 +36,7 @@ class DatatablesController extends Controller
         if( $req->ajax() )
         {
             // Query for displaying employee details
-            $query =  DB::table('employees')
-                ->join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
+            $query =  Employee::join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
                 ->join('address as residenceAddress', function($join)
                 {
                     $join->on('employees.id', '=', 'residenceAddress.employee_id')
@@ -55,6 +54,7 @@ class DatatablesController extends Controller
                     ,'residenceAddress.fax AS residenceFax','officeAddress.street AS officeStreet'
                     ,'officeAddress.city AS officeCity','officeAddress.state AS officeState','officeAddress.zip AS officeZip'
                     ,'officeAddress.fax AS officeFax')
+                ->where('isActive','yes')
                 ;
 
             // Return Employee details json

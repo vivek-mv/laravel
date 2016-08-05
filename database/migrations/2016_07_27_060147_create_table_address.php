@@ -24,6 +24,7 @@ class CreateTableAddress extends Migration
             $table->string('fax',20);
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

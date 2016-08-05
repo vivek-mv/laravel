@@ -32,10 +32,10 @@ class HelperController extends Controller
     public function delete($id) {
         $userId = $id;
         try {
-            // Delete the image if there is one
-            if ( Employee::find($userId)->photo != '' ) {
-                unlink(getcwd().'/images/'.Employee::find($userId)->photo);
-            }
+//            // Delete the image if there is one
+//            if ( !in_array(Employee::find($userId)->photo,['default_male.jpg','default_female.jpg','default_others']) ) {
+//                unlink(getcwd().'/images/'.Employee::find($userId)->photo);
+//            }
             Address::deleteAddress($userId);
             CommMedium::deleteCommMedium($userId);
             Employee::deleteEmployee($userId);
@@ -57,8 +57,7 @@ class HelperController extends Controller
         $userId = $id;
 
         // Query for displaying employee details
-        $user =  DB::table('employees')
-            ->join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
+        $user =  Employee::join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
             ->join('address as residenceAddress', function($join)
             {
                 $join->on('employees.id', '=', 'residenceAddress.employee_id')

@@ -34,6 +34,7 @@ class CreateTableEmployees extends Migration
             $table->string('stackId',100)->default('0');
             $table->string('remember_token')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

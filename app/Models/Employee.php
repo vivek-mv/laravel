@@ -10,6 +10,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Employee Model
@@ -24,6 +25,11 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 class Employee extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
+
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+
 
     /**
      * The table associated with the model.

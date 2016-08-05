@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+
     /**
      * The table associated with the model.
      *
