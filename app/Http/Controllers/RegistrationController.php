@@ -232,9 +232,9 @@ class RegistrationController extends Controller
             'isReset' => $isReset
         ],
         function ($message) use($emailAddress) {
-        $message->from('vivek.m@mindfiresolutions.com','mfsi');
-        $message->to($emailAddress, $name = null);
-        $message->subject('Account Activation');
+            $message->from('vivek.m@mindfiresolutions.com','mfsi');
+            $message->to($emailAddress, $name = null);
+            $message->subject('Account Activation');
         });
     }
 }

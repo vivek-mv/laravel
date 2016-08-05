@@ -16,10 +16,10 @@ class CreateTableCommMedium extends Migration
         Schema::create('commMedium', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('employee_id')->unsigned();
-            $table->integer('msg');
-            $table->integer('mail');
-            $table->integer('call');
-            $table->integer('any');
+            $table->string('msg',1);
+            $table->string('mail',1);
+            $table->string('call',1);
+            $table->string('any',1);
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->timestamps();
         });

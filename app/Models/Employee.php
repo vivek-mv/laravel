@@ -83,7 +83,17 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
 
                 if ( !$isUpdate ) {
 
-                    $employee->photo = '';
+                    if ( $request->gender == 'male' ) {
+                        $employee->photo = 'default_male.jpg';
+
+                    }elseif ( $request->gender == 'female' ) {
+
+                        $employee->photo = 'default_female.jpg';
+                    } else {
+                        
+                        $employee->photo = 'default_others.jpg';
+                    }
+
                 }
             }
             $employee->note = $request->note;
