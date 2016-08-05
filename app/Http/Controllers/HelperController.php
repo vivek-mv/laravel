@@ -32,10 +32,6 @@ class HelperController extends Controller
     public function delete($id) {
         $userId = $id;
         try {
-//            // Delete the image if there is one
-//            if ( !in_array(Employee::find($userId)->photo,['default_male.jpg','default_female.jpg','default_others']) ) {
-//                unlink(getcwd().'/images/'.Employee::find($userId)->photo);
-//            }
             Address::deleteAddress($userId);
             CommMedium::deleteCommMedium($userId);
             Employee::deleteEmployee($userId);
