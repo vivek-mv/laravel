@@ -36,7 +36,7 @@ class HelperController extends Controller
             CommMedium::deleteCommMedium($userId);
             Employee::deleteEmployee($userId);
 
-            return redirect()->route('home');
+            return redirect('details');
         } catch (\Exception $ex) {
             Helper::log($ex);
            return redirect()->route('home')->with('deletefailed',1);

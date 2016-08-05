@@ -99,14 +99,16 @@ class DatatablesController extends Controller
 
                         // Show delete only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
-                            $delete = '<li><a href="'.URL::to('delete/' .$query->id).'"><i class="icon-trash"></i>Delete</a></li>';
+                            $delete = '<li class="alert-delete"><a href="'.URL::to('delete/' .$query->id).'"><i class="icon-trash"></i>Delete</a></li>';
                         }
                     }
 
                     if ( $edit != '' || $delete != '' ) {
 
                         $result = '<div class="btn-group">
-                                       <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                       <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
+                                       <button type="button" class="btn btn-primary">Action</button>
+                                       <span class="caret"></span></a>
                                        <ul class="dropdown-menu dropdown-menu-right">
                                            '.$view.'
                                            '.$edit.'
@@ -116,7 +118,7 @@ class DatatablesController extends Controller
                     }
                     return $result;
                 })
-                ->add_column( 'Phone','{{ $mobile}}<br>{{$landline}}')
+                ->add_column( 'Phone','{{ $mobile }}<br>{{ $landline }}')
                 ->add_column(
                     'residenceAddress','{{ $residenceStreet." ".$residenceCity}}
                     <br>{{$residenceState." ".$residenceZip}}')

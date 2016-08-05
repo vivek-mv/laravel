@@ -1,19 +1,21 @@
 @extends('layouts.master')
 
 @section('content')
-    <table class="table table-bordered" id="users-table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>D.O.B</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Photo</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-    </table>
+    <div class="table-responsive">
+        <table class="table stripe" id="users-table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>D.O.B</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Photo</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 
     <!-- View Stackoverflow details Modal -->
     <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -157,6 +159,11 @@
 @stop
 
 @push('scripts')
+<script>
+    $(document).on('click', '.alert-delete', function () {
+        alert('You are going to delete the account. Are you sure you want to do it ?');
+    });
+</script>
 <script>
     $(function() {
         $('#users-table').DataTable({
