@@ -61,6 +61,7 @@ class DatatablesController extends Controller
             return Datatables::of( $query )
                 ->add_column( 'Action',function ($query){
                     $view = '';
+                    $showStackInfo = '';
                     $edit = '';
                     $delete = '';
                     $result = '';
@@ -71,7 +72,10 @@ class DatatablesController extends Controller
                         // Show edit only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
 
-                            $view = '<li id="viewUserDetails" style="cursor: pointer"><i class="icon-pencil"></i>View Details</a></li>'.
+                            $stackId = $query->stackId;
+
+                            $view = '<li id="viewUserDetails"><a href="javascript:void(0)">' .
+                                '<i class="glyphicon glyphicon-list-alt"></i> &nbsp;View Details</a></li>'.
                                 '<input type="hidden" id="' . $query->id . '_mStatus" name="maritalStatus" value="' . $query->maritalStatus . '">' .
                                 '<input type="hidden" id="' . $query->id. '_employment" name="employment" value="' . $query->employment . '">' .
                                 '<input type="hidden" id="' . $query->id . '_residenceAddress" name="residenceAddress" value="
@@ -81,6 +85,9 @@ class DatatablesController extends Controller
                                 '<input type="hidden" id="' . $query->id . '_photo" name="photo" value="' . asset('/images/'.$query->photo) . '">'.
                                 '<input type="hidden" id="' . $query->id . '_name" name="name" value="' .$query->firstName.' '.$query->middleName.' '.$query->lastName. '">' .
                                 '<input type="hidden" class="getEmployeeId" name="id" value="' . $query->id . '">';
+
+                            $showStackInfo = '<li id=".showStackDetails"  data-toggle="modal" data-target="#myModal" onclick="displayStackInfo('.$stackId.')"><a href="javascript:void(0)">' .
+                                '<i class="glyphicon glyphicon-list-alt"></i> &nbsp;View Stack Details</a></li>';
                         }
                     }
 
@@ -90,7 +97,8 @@ class DatatablesController extends Controller
                         // Show edit only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
 
-                            $edit = '<li><a href="'.URL::to('update/' .$query->id).'"><i class="icon-pencil"></i> Edit</a></li>';
+                            $edit = '<li><a href="'.URL::to('update/' .$query->id).'">
+                            <i class="glyphicon glyphicon-pencil"></i>&nbsp; Edit</a></li>';
                         }
                     }
 
@@ -99,21 +107,24 @@ class DatatablesController extends Controller
 
                         // Show delete only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
-                            $delete = '<li class="alert-delete"><a href="'.URL::to('delete/' .$query->id).'"><i class="icon-trash"></i>Delete</a></li>';
+                            $delete = '<li class="alert-delete"><a href="javascript:void(0)">
+                            <i class="glyphicon glyphicon-trash"></i>&nbsp; Delete</a></li>';
                         }
                     }
 
                     if ( $edit != '' || $delete != '' ) {
 
                         $result = '<div class="btn-group">
-                                       <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
-                                       <button type="button" class="btn btn-primary">Action</button>
-                                       <span class="caret"></span></a>
-                                       <ul class="dropdown-menu dropdown-menu-right">
-                                           '.$view.'
-                                           '.$edit.'
-                                           '.$delete.'
-                                       </ul>
+                                       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" 
+                                        aria-haspopup="true" aria-expanded="false">
+                                            Action <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            '.$view.'
+                                            '.$showStackInfo.'
+                                            '.$edit.'
+                                            '.$delete.'
+                                        </ul>
                                    </div>';
                     }
                     return $result;

@@ -160,8 +160,27 @@
 
 @push('scripts')
 <script>
-    $(document).on('click', '.alert-delete', function () {
-        alert('You are going to delete the account. Are you sure you want to do it ?');
+    // Send request to delete the account
+    $(document).on('click', '.alert-delete', function (e) {
+        $employeeId = $(this).parent().children('.getEmployeeId').val();
+        bootbox.confirm('You are about to delete the account. Are you sure you want to do it ? ', function(result){
+
+            if ( result) {
+
+                $.ajax({
+                    url: '/delete/'+$employeeId,
+                    data: {
+                    },
+                    dataType : 'json',
+                    type: "GET",
+                    success: function (response) {
+                        //Remove console and reload the datatables
+                        console.log(response);
+                    }
+                });
+            }else {
+            }
+        });
     });
 </script>
 <script>
