@@ -47,7 +47,7 @@ class RegistrationController extends Controller
      */
 
     public function doRegister(Request $request)
-    {   
+    {
         // If all the input fields are valid then proceed and register the user
         if ( $this->doValidation($request) ) {
 

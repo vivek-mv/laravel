@@ -124,7 +124,6 @@ function sendPermissions(checkboxObj,isChecked) {
 
 function displayRRP(response) {
 
-
     $('#showUI').append('<div class="panel panel-default" style="width: 70%;"><div class="panel-heading" style="text-align: center;">ADMIN PANEL</div><div class="panel-body dashboard"></div></div>');
     $('.dashboard').append('<div id="formdiv" class="form-inline"></div>');
     $('#formdiv').append(' Role : <select id="displayRole" class="form-control"></select>');
@@ -157,10 +156,7 @@ function displayRRP(response) {
         $('<input />', { type: 'checkbox', id:per, class:'checkbox', value: response.permission[0][per].id }).appendTo('#checkboxdiv');
         $('<label />', { 'for': per, text: response.permission[0][per].name }).appendTo('#checkboxdiv');
     });
-
-
 }
-
 
 /**
  * Show whether permission change was success or not

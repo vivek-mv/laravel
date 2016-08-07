@@ -1,0 +1,1 @@
+<img src="{{ asset('/images/'.$query->photo) }}" atl="profile_pic" height="50px" width="50px">

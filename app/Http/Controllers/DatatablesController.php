@@ -72,22 +72,8 @@ class DatatablesController extends Controller
                         // Show edit only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
 
-                            $stackId = $query->stackId;
-
-                            $view = '<li id="viewUserDetails"><a href="javascript:void(0)">' .
-                                '<i class="glyphicon glyphicon-list-alt"></i> &nbsp;View Details</a></li>'.
-                                '<input type="hidden" id="' . $query->id . '_mStatus" name="maritalStatus" value="' . $query->maritalStatus . '">' .
-                                '<input type="hidden" id="' . $query->id. '_employment" name="employment" value="' . $query->employment . '">' .
-                                '<input type="hidden" id="' . $query->id . '_residenceAddress" name="residenceAddress" value="
-                                    ' . $query->residenceStreet . '<br> '.$query->residenceCity.'<br> '.$query->residenceState.'<br> '.$query->residenceZip.'">' .
-                                '<input type="hidden" id="' . $query->id . '_officeAddress" name="officeAddress" value="
-                                    ' . $query->officeStreet . '<br> '.$query->officeCity.'<br> '.$query->officeState.'<br> '.$query->officeZip.'">' .
-                                '<input type="hidden" id="' . $query->id . '_photo" name="photo" value="' . asset('/images/'.$query->photo) . '">'.
-                                '<input type="hidden" id="' . $query->id . '_name" name="name" value="' .$query->firstName.' '.$query->middleName.' '.$query->lastName. '">' .
-                                '<input type="hidden" class="getEmployeeId" name="id" value="' . $query->id . '">';
-
-                            $showStackInfo = '<li id=".showStackDetails"  data-toggle="modal" data-target="#myModal" onclick="displayStackInfo('.$stackId.')"><a href="javascript:void(0)">' .
-                                '<i class="glyphicon glyphicon-list-alt"></i> &nbsp;View Stack Details</a></li>';
+                            $view = view('userDetailsBtn')->with('query', $query);
+                            $showStackInfo = view('stackInfoBtn')->with('query', $query);
                         }
                     }
 
@@ -97,8 +83,7 @@ class DatatablesController extends Controller
                         // Show edit only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
 
-                            $edit = '<li><a href="'.URL::to('update/' .$query->id).'">
-                            <i class="glyphicon glyphicon-pencil"></i>&nbsp; Edit</a></li>';
+                            $edit = view('editBtn')->with('query', $query);
                         }
                     }
 
@@ -107,8 +92,7 @@ class DatatablesController extends Controller
 
                         // Show delete only to admin or loged in user
                         if ( ($query->id == Auth::user()->id) || (Auth::user()->roleId == 2 ) ) {
-                            $delete = '<li class="alert-delete"><a href="javascript:void(0)">
-                            <i class="glyphicon glyphicon-trash"></i>&nbsp; Delete</a></li>';
+                            $delete = view('deleteBtn');
                         }
                     }
 
@@ -137,22 +121,20 @@ class DatatablesController extends Controller
                     'officeAddress','{{ $officeStreet." ".$officeCity}}
                     <br>{{$officeState." ".$officeZip}}')
                 ->edit_column('firstName',function ($query){
-                    return
-                        '<div class="showStackInfo" data-toggle="modal" data-target="#myModal" style="cursor: pointer">'
-                            .$query->firstName.' '.$query->middleName.' '.$query->lastName.'
-                            <input type="hidden" value='.$query->stackId.'>
-                        </div>';
+
+                    return view('nameField')->with('query', $query);
                 })
                 ->editColumn('photo',function ($query){
 
                     if ( ($query->photo != '') ) {
 
-                        return '<img src="'. asset('/images/'.$query->photo) .'" atl="profile_pic" height="50px" width="50px">';
+                        return view('profilePic')->with('query', $query);
                     }
 
                     return $query->photo;
                 })
                 ->editColumn('dob',function ($query){
+
                         if ( $query->dob == '0000-00-00' ) {
 
                             $query->dob = '';

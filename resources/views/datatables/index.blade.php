@@ -131,7 +131,6 @@
                                                 <td id="employment_status"></td>
                                             </tr>
                                             <tr>
-                                            <tr>
                                                 <td>Address (R)</td>
                                                 <td id="residence_address"></td>
                                             </tr>
@@ -174,17 +173,17 @@
                     dataType : 'json',
                     type: "GET",
                     success: function (response) {
-                        //Remove console and reload the datatables
-                        console.log(response);
+
+                        // If delete is success then reload the page
+                        location.reload();
                     }
                 });
             }else {
             }
         });
     });
-</script>
-<script>
-    $(function() {
+
+    function showDatatables() {
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
@@ -200,6 +199,12 @@
                 { data: 'Action', name: 'Action',bSearchable:false,bSortable:false}
             ]
         });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+
+        showDatatables();
     });
 </script>
 <script type="text/javascript" src="js/details.js"></script>
