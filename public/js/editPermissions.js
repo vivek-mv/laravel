@@ -1,4 +1,5 @@
 
+// Variable to hold json data for the permissions checkboxes
 var checkboxResponseObj;
 
 /**

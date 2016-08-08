@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Log;
  * @link void
  */
 
-class Helper extends Model
-{
+class Helper extends Model {
+
     /**
      * Log the exception
      *

@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @link void
  */
 
-class Address extends Model
-{
+class Address extends Model {
+
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
@@ -92,6 +92,7 @@ class Address extends Model
      * @param request object
      * @return void
      */
+
     public static function deleteAddress($employeeId) {
         Address::where('employee_id',$employeeId)->delete();
     }

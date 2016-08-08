@@ -21,16 +21,16 @@ use Illuminate\Support\Facades\Mail;
  * @link void
  */
 
-class RegistrationController extends Controller
-{
+class RegistrationController extends Controller {
+
     /**
      * Show registration form
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
+
         // If the user is logged in , then redirect to home page
         if ( !Auth::check() ) {
 
@@ -46,8 +46,8 @@ class RegistrationController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function doRegister(Request $request)
-    {
+    public function doRegister(Request $request) {
+
         // If all the input fields are valid then proceed and register the user
         if ( $this->doValidation($request) ) {
 

@@ -5,9 +5,9 @@
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right">
-        {{ $view }}
-        {{ $showStackInfo }}
-        {{ $edit }}
-        {{ $delete }}
+        {!! $view !!} 
+        {!! $showStackInfo !!}
+        {!! $edit !!}
+        {!! $delete !!}
     </ul>
 </div>

@@ -194,8 +194,8 @@ class HelperController extends Controller
      * @return view
      */
     
-    public function showReset()
-    {
+    public function showReset() {
+
         return view('resetPassword');
     }
 
@@ -205,8 +205,8 @@ class HelperController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     
-    public function doReset(Request $request)
-    {
+    public function doReset(Request $request) {
+
         // Apply validation rules
         $this->validate($request, [
             'firstName' => 'required|min:1|max:11|alpha',

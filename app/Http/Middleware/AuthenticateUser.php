@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Auth;
  * @link void
  */
 
-class AuthenticateUser
-{
+class AuthenticateUser {
+
     /**
      * Handle an incoming request.
      *

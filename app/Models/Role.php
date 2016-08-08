@@ -4,8 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
-{
+/**
+ * Role Model
+ * @access public
+ * @package App\Models
+ * @subpackage void
+ * @category void
+ * @author vivek
+ * @link void
+ */
+
+class Role extends Model {
+
     /**
      * The table associated with the model.
      *

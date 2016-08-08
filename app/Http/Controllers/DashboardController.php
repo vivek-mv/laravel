@@ -118,7 +118,6 @@ class DashboardController extends Controller
                     if ( CommMedium::add($request,$employeeId) ) {
 
                         try {
-
                             // Send email to the user
                             $rc = new RegistrationController();
                             $rc->sendEmail($request->email,$employeeId,true);

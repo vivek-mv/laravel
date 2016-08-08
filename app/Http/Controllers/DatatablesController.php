@@ -11,6 +11,7 @@ use Yajra\Datatables\Datatables;
 
 use App\Http\Requests;
 use URL;
+use Html;
 
 /**
  * Handles the user details display page
@@ -33,8 +34,8 @@ class DatatablesController extends Controller
     
     public function getIndex( Request $req )
     {
-        if( $req->ajax() )
-        {
+        if( $req->ajax() ) {
+
             // Query for displaying employee details
             $query =  Employee::join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
                 ->join('address as residenceAddress', function($join)
@@ -54,8 +55,7 @@ class DatatablesController extends Controller
                     ,'residenceAddress.fax AS residenceFax','officeAddress.street AS officeStreet'
                     ,'officeAddress.city AS officeCity','officeAddress.state AS officeState','officeAddress.zip AS officeZip'
                     ,'officeAddress.fax AS officeFax')
-                ->where('isActive','yes')
-                ;
+                ->where('isActive','yes');
 
             // Return Employee details json
             return Datatables::of( $query )
@@ -98,19 +98,14 @@ class DatatablesController extends Controller
 
                     if ( $edit != '' || $delete != '' ) {
 
-                        $result = '<div class="btn-group">
-                                       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" 
-                                        aria-haspopup="true" aria-expanded="false">
-                                            Action <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            '.$view.'
-                                            '.$showStackInfo.'
-                                            '.$edit.'
-                                            '.$delete.'
-                                        </ul>
-                                   </div>';
+                        $result = view('actionBtn', array(
+                            'view' => $view ,
+                            'showStackInfo' => $showStackInfo ,
+                            'edit' => $edit ,
+                            'delete' => $delete
+                        ));
                     }
+
                     return $result;
                 })
                 ->add_column( 'Phone','{{ $mobile }}<br>{{ $landline }}')
@@ -128,7 +123,7 @@ class DatatablesController extends Controller
 
                     if ( ($query->photo != '') ) {
 
-                        return view('profilePic')->with('query', $query);
+                        return Html::image( asset('/images/'.$query->photo), 'Image', array( 'width' => 50, 'height' => 50 ) );
                     }
 
                     return $query->photo;

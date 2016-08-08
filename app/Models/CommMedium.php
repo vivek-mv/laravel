@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @link void
  */
 
-class CommMedium extends Model
-{
+class CommMedium extends Model {
+
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
@@ -55,6 +55,7 @@ class CommMedium extends Model
                 // Insert Communication Medium
                 $commMedium = new CommMedium;
             }
+
             $commMedium->employee_id = $employee_id;
             $commMedium->msg = (in_array('msg',$request->commMed) ? 1 : 0);
             $commMedium->mail = (in_array('mail',$request->commMed) ? 1 : 0);;

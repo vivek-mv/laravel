@@ -22,8 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @link void
  */
 
-class Employee extends Model implements AuthenticatableContract, CanResetPasswordContract
-{
+class Employee extends Model implements AuthenticatableContract, CanResetPasswordContract {
+
     use Authenticatable, CanResetPassword;
 
     use SoftDeletes;
@@ -103,6 +103,7 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
 
                 }
             }
+
             $employee->note = $request->note;
             $employee->save();
 
@@ -111,6 +112,7 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
 
                 return true;
             }
+
             return ['success' => true,'employee_id' => $employee->id];
         } catch (\Exception $ex) {
 

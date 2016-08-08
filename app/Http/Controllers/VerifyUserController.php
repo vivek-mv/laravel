@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Crypt;
  * @link void
  */
 
-class VerifyUserController extends Controller
-{
+class VerifyUserController extends Controller {
+
     /**
      * Verify the user's email and activate his account
      * @param $email

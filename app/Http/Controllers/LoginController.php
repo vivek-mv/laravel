@@ -22,8 +22,8 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @link void
  */
 
-class LoginController extends Controller implements AuthenticatableContract, CanResetPasswordContract
-{
+class LoginController extends Controller implements AuthenticatableContract, CanResetPasswordContract {
+
     use Authenticatable, CanResetPassword;
 
     /**
@@ -31,6 +31,7 @@ class LoginController extends Controller implements AuthenticatableContract, Can
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
+
     public function login(Request $request)
     {
         //If the user is logged in ,then redirect to home page,else show login page
@@ -50,8 +51,8 @@ class LoginController extends Controller implements AuthenticatableContract, Can
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function doLogin(Request $request)
-    {
+    public function doLogin(Request $request) {
+
         $this->validate($request, [
             'email' => 'email|required',
             'password' => 'required|alpha_num|min:5|max:11',

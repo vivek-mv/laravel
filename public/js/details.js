@@ -16,8 +16,10 @@ $(document).ready(function(){
 /**
  * Display the Stackoverflow account info
  * @param stackUserId
+ * @return void
  */
 function displayStackInfo(stackUserId) {
+
     if ( stackUserId == '' ) {
 
         $('#stackNoAccount').css('display','inline');
@@ -33,6 +35,7 @@ function displayStackInfo(stackUserId) {
             url: 'https://api.stackexchange.com/users/' + stackUserId + '?site=stackoverflow',
             dataType : 'json',
             success: function (response) {
+
                 if ( response.items == '' || response.error_id   ) {
 
                     $('#loaderImg').css('display','none');
@@ -65,6 +68,7 @@ function displayStackInfo(stackUserId) {
 /**
  * Display the user details in a modal
  * @param employeeId
+ * @return void
  */
 
 function displayDetails(employeeId) {
