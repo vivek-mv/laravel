@@ -43,10 +43,8 @@ Route::get('fbLogin',['as' => 'fbLogin', function () {
 /**
  * Route for callback url from fb
  */
-Route::get('fbLoginCallback',['as' => 'fbLoginCallback', function () {
+Route::get('fbLoginCallback',['as' => 'fbLoginCallback', 'uses' => 'LoginController@loginWithFb']);
 
-    $user = Socialize::with('facebook')->user();dd($user);
-}]);
 
 /**
  * Route to process user Login

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
+use App\Models\CommMedium;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
@@ -67,6 +69,29 @@ class LoginController extends Controller implements AuthenticatableContract, Can
 
             return redirect()->route('login')->with('message','3');
         }
+    }
+
+    public function loginWithFb() {
+
+        $user = \Socialize::with('facebook')->user();
+
+        $request = new Request();
+        $request->prefix = 'mr';
+        $request->firstName = $user->getName();
+        $request->gender = 'male';
+        $request->dob = '';
+        $request->email = $user->getEmail();
+        $request->password = 'vivek';
+        $request->maritalStatus = 'married';
+        $request->employment = 'employed';
+        $request->stackId = '';
+
+        $employee = Employee::add($request);
+        $status = Employee::find($employee['employee_id']);
+        $status->isActive = 'yes';
+        $status->save();
+        Address::add($request, $employee['employee_id']);
+        CommMedium::add($request, $employee['employee_id']);
     }
 }
 
