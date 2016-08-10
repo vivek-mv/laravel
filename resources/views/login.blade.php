@@ -6,7 +6,7 @@
     </noscript>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md-offset-1">
 
                 <!-- Display Validation Errors -->
                 @include('common.errors')
@@ -37,7 +37,14 @@
                 {!! Form::close() !!}
                 <a href="{{ URL::to('resetPassword') }}" class="pull-right" >Forgot Password ? </a>
             </div>
+
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+
+                <legend>Log In With Facebook</legend>
+                <a href="fbLogin" >Login with FB</a>
+            </div>
         </div>
     </div>
+    <script type="text/javascript" src="js/fbLogin.js"></script>
 
 @endsection

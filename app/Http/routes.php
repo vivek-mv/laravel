@@ -34,6 +34,21 @@ Route::post('do-register', ['as' => 'do-register', 'uses' => 'RegistrationContro
 Route::get('login', ['as' => 'login', 'uses' => 'LoginController@login']);
 
 /**
+ * Route for login with FB
+ */
+Route::get('fbLogin',['as' => 'fbLogin', function () {
+    return Socialize::with('facebook')->redirect();
+}]);
+
+/**
+ * Route for callback url from fb
+ */
+Route::get('fbLoginCallback',['as' => 'fbLoginCallback', function () {
+
+    $user = Socialize::with('facebook')->user();dd($user);
+}]);
+
+/**
  * Route to process user Login
  */
 Route::post('do-login', ['as' => 'do-login', 'uses' => 'LoginController@doLogin']);

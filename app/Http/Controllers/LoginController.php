@@ -28,13 +28,14 @@ class LoginController extends Controller implements AuthenticatableContract, Can
 
     /**
      * Show login form
+     *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
 
     public function login(Request $request)
     {
-        //If the user is logged in ,then redirect to home page,else show login page
+        //If the user is logged in, then redirect to home page, else show login page
         if ( Auth::check() ) {
 
             return redirect()->route('home');
@@ -54,7 +55,7 @@ class LoginController extends Controller implements AuthenticatableContract, Can
     public function doLogin(Request $request) {
 
         $this->validate($request, [
-            'email' => 'email|required',
+            'email' => 'email|required|max:50',
             'password' => 'required|alpha_num|min:5|max:11',
         ]);
 

@@ -59,6 +59,7 @@ class Employee extends Model implements AuthenticatableContract, CanResetPasswor
                 // If the request is to create new user
                 $employee = new Employee;
             }
+
             $employee->prefix = $request->prefix;
             $employee->firstName = $request->firstName;
             $employee->middleName = $request->middleName;
