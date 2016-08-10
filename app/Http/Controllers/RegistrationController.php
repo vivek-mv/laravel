@@ -130,6 +130,7 @@ class RegistrationController extends Controller {
         // Custom error messages
         $messages = array(
             'prefix.in' => 'Prefix must be Mr or Miss',
+            'firstName.regex' => 'First Name should only contain letters',
             'gender.in' => 'Please choose a valid gender',
             'mobile.regex' => 'Mobile number must contain only digits',
             'landline.regex' => 'Landline number must contain only digits',
@@ -150,7 +151,7 @@ class RegistrationController extends Controller {
         // Apply validation rules
         $this->validate($request, [
             'prefix' => 'required|in:mr,miss',
-            'firstName' => 'required|min:1|max:11|alpha',
+            'firstName' => 'required|min:1|max:11|regex:/^[a-zA-Z ]+$/',
             'middleName' => 'max:11|alpha',
             'lastName'  => 'max:11|alpha',
             'gender' => 'required|in:male,female,others',

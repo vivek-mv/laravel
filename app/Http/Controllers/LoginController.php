@@ -71,27 +71,62 @@ class LoginController extends Controller implements AuthenticatableContract, Can
         }
     }
 
+    /**
+     * Process Login with Facebook
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function loginWithFb() {
 
         $user = \Socialize::with('facebook')->user();
 
-        $request = new Request();
-        $request->prefix = 'mr';
-        $request->firstName = $user->getName();
-        $request->gender = 'male';
-        $request->dob = '';
-        $request->email = $user->getEmail();
-        $request->password = 'vivek';
-        $request->maritalStatus = 'married';
-        $request->employment = 'employed';
-        $request->stackId = '';
+        $emp = Employee::where('email', $user->getEmail())
+            ->get();
 
-        $employee = Employee::add($request);
-        $status = Employee::find($employee['employee_id']);
-        $status->isActive = 'yes';
-        $status->save();
-        Address::add($request, $employee['employee_id']);
-        CommMedium::add($request, $employee['employee_id']);
+        $isUserPresent = $emp->count();
+
+        if ( $isUserPresent == '1' ) {
+
+            if ( Auth::loginUsingId($emp->first()->id) ) {
+
+                // Authentication passed...
+                return redirect()->route('home')->with('login_success','1');
+            } else {
+
+                return redirect()->route('login')->with('loginFailed','1');
+            }
+
+        } else {
+
+            $request = new Request();
+            $request->prefix = 'mr';
+            $request->firstName = $user->getName();
+            $request->gender = 'male';
+            $request->dob = '';
+            $request->email = $user->getEmail();
+            $request->password = 'vivek';
+            $request->maritalStatus = 'married';
+            $request->employment = 'employed';
+            $request->stackId = '';
+
+            $employee = Employee::add($request);
+            $status = Employee::find($employee['employee_id']);
+            $status->isActive = 'yes';
+            $status->save();
+            Address::add($request, $employee['employee_id']);
+            CommMedium::add($request, $employee['employee_id']);
+
+            if ( Auth::loginUsingId($employee['employee_id']) ) {
+
+                // Authentication passed...
+                return redirect('update/'.$employee['employee_id'])->with('updateDetails','1');
+            } else {
+
+                return redirect()->route('login')->with('loginFailed','1');
+            }
+        }
+
+
     }
 }
 

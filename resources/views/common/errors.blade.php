@@ -117,6 +117,22 @@
     </div>
 @endif
 
+<!-- Message for Login Failed-->
+@if ( Session::get('loginFailed') == '1' )
+
+    <div class="alert alert-danger">
+        <strong>Login Failed ! Please try after sometime</strong>
+    </div>
+@endif
+
+<!-- Message for Update details -->
+@if ( Session::get('updateDetails') == '1' )
+
+    <div class="alert alert-success">
+        <strong>Please Update your details</strong>
+    </div>
+@endif
+
 
 
 

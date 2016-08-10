@@ -70,6 +70,10 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        if ( window.location.hash && window.location.hash == '#_=_' ) {
+            window.location.hash = '';
+        }
     </script>
 </body>
 </html>
