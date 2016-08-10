@@ -56,7 +56,7 @@ function displayStackInfo(stackUserId) {
                 }
             },
             statusCode: {
-                400: function() {console.log('hi');
+                400: function() {
                     $('#loaderImg').css('display','none');
                     $('#stackInvalidAccount').css('display','inline');
                 }
