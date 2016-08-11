@@ -84,11 +84,17 @@ class LoginController extends Controller implements AuthenticatableContract, Can
         } elseif ( $others == 2 ) {
 
             $user = \Socialize::with('linkedin')->user();
+        } elseif ( $others == 3 ) {
+
+            $user = \Socialize::with('twitter')->user();
         } else {
 
             $user = \Socialize::with('facebook')->user();
         }
 
+        if ( $user->getEmail() == null ) {
+            return redirect()->route('login')->with('email_required','1');
+        }
 
         $emp = Employee::where('email', $user->getEmail())
             ->get();

@@ -6,7 +6,7 @@
     </noscript>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md-offset-3">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-sm-offset-3 col-md-offset-3">
 
                 <!-- Display Validation Errors -->
                 @include('common.errors')
@@ -38,7 +38,7 @@
                 <a href="{{ URL::to('resetPassword') }}" class="pull-right" >Forgot Password ? </a>
                 <hr>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
 
                         <a class="btn btn-block btn-social btn-facebook" href="{{ URL::to('fbLogin') }}">
                             <span class="fa fa-facebook"></span> Sign in with Facebook
@@ -48,6 +48,9 @@
                         </a>
                         <a class="btn btn-block btn-social btn-linkedin" href="{{ URL::to('linkedInLogin') }}">
                             <span class="fa fa-linkedin"></span> Sign in with LinkedIn
+                        </a>
+                        <a class="btn btn-block btn-social btn-twitter" href="{{ URL::to('twitterLogin') }}">
+                            <span class="fa fa-twitter"></span> Sign in with Twitter
                         </a>
                     </div>
                 </div>

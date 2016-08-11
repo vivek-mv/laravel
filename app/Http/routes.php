@@ -55,6 +55,13 @@ Route::get('linkedInLogin',['as' => 'linkedInLogin', function () {
 }]);
 
 /**
+ * Route for login with Twitter
+ */
+Route::get('twitterLogin',['as' => 'twitterLogin', function () {
+    return Socialize::with('twitter')->redirect();
+}]);
+
+/**
  * Route for callback url from fb,google,linkedin
  */
 Route::get('loginWithOthers/{others?}',['as' => 'loginWithOthers', 'uses' => 'LoginController@loginWithOthers']);

@@ -4,16 +4,16 @@
         Email : {{ $emailAddress }} <br>
         Password : {{ $password }} <br>
         Please change your password after you login. <br>
-        <a href="http://172.16.9.16/training/public/verifyUser/{{ $email }}/{{$code}}"  target="_blank">
+        <a href="{{ URL::to('verifyUser/'.$email.'/'.$code) }}"  target="_blank">
             Click here to activate your account
         </a>
     @else
         @if ( $isReset == 'true')
-            <a href="http://172.16.9.16/training/public/verifyUser/{{ $email }}/{{$code}}/true"  target="_blank">
+            <a href="{{ URL::to('verifyUser/'.$email.'/'.$code.'/true') }}"  target="_blank">
                 Click here to reset your password
             </a>
         @else
-        <a href="http://172.16.9.16/training/public/verifyUser/{{ $email }}/{{$code}}"  target="_blank">
+        <a href="{{ URL::to('verifyUser/'.$email.'/'.$code) }}"  target="_blank">
             Click here to activate your account
         </a>
         @endif

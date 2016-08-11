@@ -48,6 +48,11 @@ return [
         'client_id' => '81oh27kjsjbuky',
         'client_secret' => '3HEiSujs3GM4J3Cv',
         'redirect' => 'http://laravel.local.com/loginWithOthers/2',
+    ],
+    'twitter' => [
+        'client_id' => 'BFOufTojJBFozVFSVK8g71ddY',
+        'client_secret' => 'PEXNRWbwqlVx2KfecNJy3iKvrfJ7ARK13ndSZKs3TxRhYRe55l',
+        'redirect' => 'http://laravel.local.com/loginWithOthers/3',
     ]
 
 ];

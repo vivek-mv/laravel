@@ -133,6 +133,14 @@
     </div>
 @endif
 
+<!-- Message for email required -->
+@if ( Session::get('email_required') == '1' )
+
+    <div class="alert alert-danger">
+        <strong>Please provide an email in your social media account and try again.</strong>
+    </div>
+@endif
+
 
 
 
