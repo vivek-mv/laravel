@@ -41,9 +41,17 @@ Route::get('fbLogin',['as' => 'fbLogin', function () {
 }]);
 
 /**
+ * Route for login with Google
+ */
+Route::get('googleLogin',['as' => 'googleLogin', function () {
+    return Socialize::with('google')->redirect();
+}]);
+
+
+/**
  * Route for callback url from fb
  */
-Route::get('fbLoginCallback',['as' => 'fbLoginCallback', 'uses' => 'LoginController@loginWithFb']);
+Route::get('loginWithOthers/{google?}',['as' => 'loginWithOthers', 'uses' => 'LoginController@loginWithOthers']);
 
 
 /**

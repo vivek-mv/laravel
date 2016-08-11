@@ -76,9 +76,16 @@ class LoginController extends Controller implements AuthenticatableContract, Can
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function loginWithFb() {
+    public function loginWithOthers($google = 0) {
 
-        $user = \Socialize::with('facebook')->user();
+        if ( $google == 1 ) {
+
+            $user = \Socialize::with('google')->user();
+        } else {
+
+            $user = \Socialize::with('facebook')->user();
+        }
+
 
         $emp = Employee::where('email', $user->getEmail())
             ->get();
@@ -125,8 +132,6 @@ class LoginController extends Controller implements AuthenticatableContract, Can
                 return redirect()->route('login')->with('loginFailed','1');
             }
         }
-
-
     }
 }
 

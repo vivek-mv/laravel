@@ -41,7 +41,8 @@
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
                 <legend>Log In With Facebook</legend>
-                <a href="fbLogin" >Login with FB</a>
+                <a href="fbLogin" >Login with FB</a><br>
+                <a href="googleLogin" >Login with Google</a>
             </div>
         </div>
     </div>
