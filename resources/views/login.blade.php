@@ -6,7 +6,7 @@
     </noscript>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md-offset-1">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md-offset-3">
 
                 <!-- Display Validation Errors -->
                 @include('common.errors')
@@ -36,13 +36,21 @@
                     </fieldset>
                 {!! Form::close() !!}
                 <a href="{{ URL::to('resetPassword') }}" class="pull-right" >Forgot Password ? </a>
-            </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
 
-            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-
-                <legend>Log In With Facebook</legend>
-                <a href="fbLogin" >Login with FB</a><br>
-                <a href="googleLogin" >Login with Google</a>
+                        <a class="btn btn-block btn-social btn-facebook" href="{{ URL::to('fbLogin') }}">
+                            <span class="fa fa-facebook"></span> Sign in with Facebook
+                        </a>
+                        <a class="btn btn-block btn-social btn-google" href="{{ URL::to('googleLogin') }}">
+                            <span class="fa fa-google"></span> Sign in with Google
+                        </a>
+                        <a class="btn btn-block btn-social btn-linkedin" href="{{ URL::to('linkedInLogin') }}">
+                            <span class="fa fa-linkedin"></span> Sign in with LinkedIn
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

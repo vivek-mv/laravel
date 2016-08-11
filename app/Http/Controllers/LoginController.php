@@ -76,11 +76,14 @@ class LoginController extends Controller implements AuthenticatableContract, Can
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function loginWithOthers($google = 0) {
+    public function loginWithOthers($others = 0) {
 
-        if ( $google == 1 ) {
+        if ( $others == 1 ) {
 
             $user = \Socialize::with('google')->user();
+        } elseif ( $others == 2 ) {
+
+            $user = \Socialize::with('linkedin')->user();
         } else {
 
             $user = \Socialize::with('facebook')->user();

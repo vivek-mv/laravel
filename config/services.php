@@ -43,6 +43,11 @@ return [
         'client_id' => '525154430213-nllv3trodb3jrou82r131db0vkdnqbpc.apps.googleusercontent.com',
         'client_secret' => '8phAGMJdehChwogDmSu-bVLv',
         'redirect' => 'http://laravel.local.com/loginWithOthers/1',
+    ],
+    'linkedin' => [
+        'client_id' => '81oh27kjsjbuky',
+        'client_secret' => '3HEiSujs3GM4J3Cv',
+        'redirect' => 'http://laravel.local.com/loginWithOthers/2',
     ]
 
 ];

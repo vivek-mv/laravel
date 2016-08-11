@@ -47,11 +47,17 @@ Route::get('googleLogin',['as' => 'googleLogin', function () {
     return Socialize::with('google')->redirect();
 }]);
 
+/**
+ * Route for login with Linked In
+ */
+Route::get('linkedInLogin',['as' => 'linkedInLogin', function () {
+    return Socialize::with('linkedin')->redirect();
+}]);
 
 /**
- * Route for callback url from fb
+ * Route for callback url from fb,google,linkedin
  */
-Route::get('loginWithOthers/{google?}',['as' => 'loginWithOthers', 'uses' => 'LoginController@loginWithOthers']);
+Route::get('loginWithOthers/{others?}',['as' => 'loginWithOthers', 'uses' => 'LoginController@loginWithOthers']);
 
 
 /**
