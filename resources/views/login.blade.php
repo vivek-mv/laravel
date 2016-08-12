@@ -52,6 +52,9 @@
                         <a class="btn btn-block btn-social btn-twitter" href="{{ URL::to('twitterLogin') }}">
                             <span class="fa fa-twitter"></span> Sign in with Twitter
                         </a>
+                        <a class="btn btn-block btn-social btn-instagram" href="{{ URL::to('instagramLogin') }}">
+                            <span class="fa fa-instagram"></span> Sign in with Instagram
+                        </a>
                     </div>
                 </div>
             </div>

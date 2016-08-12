@@ -14,6 +14,8 @@
 /**
  * Home Route
  */
+use Laravel\Socialite\Facades\Socialite;
+
 Route::get('/',['as' => 'home', function () {
     return view('welcome');
 }]);
@@ -62,7 +64,14 @@ Route::get('twitterLogin',['as' => 'twitterLogin', function () {
 }]);
 
 /**
- * Route for callback url from fb,google,linkedin
+ * Route for login with Instagram
+ */
+Route::get('instagramLogin',['as' => 'instagramLogin', function () {
+    return Socialite::with('instagram')->redirect();
+}]);
+
+/**
+ * Route for callback url from fb,google,linkedin,twitter,instagram
  */
 Route::get('loginWithOthers/{others?}',['as' => 'loginWithOthers', 'uses' => 'LoginController@loginWithOthers']);
 

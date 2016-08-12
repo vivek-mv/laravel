@@ -13,6 +13,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Laravel\Socialite\Facades\Socialite;
 
 /**
  * Class to handle user login
@@ -87,17 +88,23 @@ class LoginController extends Controller implements AuthenticatableContract, Can
         } elseif ( $others == 3 ) {
 
             $user = \Socialize::with('twitter')->user();
+        } elseif ( $others == 4 ) {
+
+            $user = Socialite::driver('instagram')->user();
         } else {
 
             $user = \Socialize::with('facebook')->user();
         }
 
         if ( $user->getEmail() == null ) {
-            return redirect()->route('login')->with('email_required','1');
-        }
 
-        $emp = Employee::where('email', $user->getEmail())
-            ->get();
+            $emp = Employee::where('clientId', $user->getId())
+                ->get();
+        } else {
+
+            $emp = Employee::where('email', $user->getEmail())
+                ->get();
+        }
 
         $isUserPresent = $emp->count();
 
@@ -114,6 +121,12 @@ class LoginController extends Controller implements AuthenticatableContract, Can
 
         } else {
 
+            // If the social newtork client doesnt provide any email, then assign a temporary email to the user
+            if ( $user->getEmail() == null ) {
+
+                $user->email = $user->getId().'@email.com';
+            }
+
             $request = new Request();
             $request->prefix = 'mr';
             $request->firstName = $user->getName();
@@ -128,6 +141,7 @@ class LoginController extends Controller implements AuthenticatableContract, Can
             $employee = Employee::add($request);
             $status = Employee::find($employee['employee_id']);
             $status->isActive = 'yes';
+            $status->clientId = $user->getId();
             $status->save();
             Address::add($request, $employee['employee_id']);
             CommMedium::add($request, $employee['employee_id']);

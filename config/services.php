@@ -53,6 +53,11 @@ return [
         'client_id' => 'BFOufTojJBFozVFSVK8g71ddY',
         'client_secret' => 'PEXNRWbwqlVx2KfecNJy3iKvrfJ7ARK13ndSZKs3TxRhYRe55l',
         'redirect' => 'http://laravel.local.com/loginWithOthers/3',
+    ],
+    'instagram' => [
+        'client_id' => '22345bd1669f47f7ab7c5aee8de7f43b',
+        'client_secret' => 'cf7709ac566a4f138e2d02956a86dfaa',
+        'redirect' => 'http://laravel.local.com/loginWithOthers/4',
     ]
 
 ];
