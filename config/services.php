@@ -35,28 +35,28 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
     'facebook' => [
-        'client_id' => '598791373619625',
-        'client_secret' => '3eda463fc4100c2f2f44352a432b9ec1',
+        'client_id' => env('FB_CLIENTID'),
+        'client_secret' => env('FB_SECRET'),
         'redirect' => 'http://laravel.local.com/loginWithOthers',
     ],
     'google' => [
-        'client_id' => '525154430213-nllv3trodb3jrou82r131db0vkdnqbpc.apps.googleusercontent.com',
-        'client_secret' => '8phAGMJdehChwogDmSu-bVLv',
+        'client_id' => env('GOOGLE_CLIENTID'),
+        'client_secret' => env('GOOGLE_SECRET'),
         'redirect' => 'http://laravel.local.com/loginWithOthers/1',
     ],
     'linkedin' => [
-        'client_id' => '81oh27kjsjbuky',
-        'client_secret' => '3HEiSujs3GM4J3Cv',
+        'client_id' => env('LINKEDIN_CLIENTID'),
+        'client_secret' =>  env('LINKEDIN_SECRET'),
         'redirect' => 'http://laravel.local.com/loginWithOthers/2',
     ],
     'twitter' => [
-        'client_id' => 'BFOufTojJBFozVFSVK8g71ddY',
-        'client_secret' => 'PEXNRWbwqlVx2KfecNJy3iKvrfJ7ARK13ndSZKs3TxRhYRe55l',
+        'client_id' => env('TWITTER_CLIENTID'),
+        'client_secret' => env('TWITTER_SECRET'),
         'redirect' => 'http://laravel.local.com/loginWithOthers/3',
     ],
     'instagram' => [
-        'client_id' => '22345bd1669f47f7ab7c5aee8de7f43b',
-        'client_secret' => 'cf7709ac566a4f138e2d02956a86dfaa',
+        'client_id' => env('INSTAGRAM_CLIENTID'),
+        'client_secret' => env('INSTAGRAM_SECRET'),
         'redirect' => 'http://laravel.local.com/loginWithOthers/4',
     ]
 
