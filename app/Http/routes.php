@@ -115,6 +115,8 @@ Route::group(['middleware' => 'authenticateUser'], function () {
 
     Route::get('delete/{id}','HelperController@delete');
 
+    Route::get('restore/{id}','HelperController@restore');
+
     Route::get('update/{id}','HelperController@update');
 
     /**

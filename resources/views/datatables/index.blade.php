@@ -183,6 +183,30 @@
         });
     });
 
+    // Send request to restore the account
+    $(document).on('click', '.alert-restore', function (e) {
+        $employeeId = $(this).parent().children('.getEmployeeId').val();
+        bootbox.confirm('You are about to restore the account. Are you sure you want to do it ? ', function(result){
+
+            if ( result ) {
+
+                $.ajax({
+                    url: '/restore/'+$employeeId,
+                    data: {
+                    },
+                    dataType : 'json',
+                    type: "GET",
+                    success: function (response) {
+
+                        // If restore is success then reload the page
+                        location.reload();
+                    }
+                });
+            }else {
+            }
+        });
+    });
+
     function showDatatables() {
         $('#users-table').DataTable({
             processing: true,

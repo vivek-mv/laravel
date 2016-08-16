@@ -36,17 +36,24 @@ class DatatablesController extends Controller
     {
         if( $req->ajax() ) {
 
+            $isAdmin = false;
+
+            if ( Auth::user()->roleId == 2 ) {
+
+                $isAdmin = true;
+            }
+
             // Query for displaying employee details
             $query =  Employee::join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
                 ->join('address as residenceAddress', function($join)
                 {
                     $join->on('employees.id', '=', 'residenceAddress.employee_id')
-                        ->where('residenceAddress.type','=',0);
+                        ->where('residenceAddress.type', '=', 0);
                 })
                 ->join('address as officeAddress', function($join)
                 {
                     $join->on('employees.id', '=', 'officeAddress.employee_id')
-                        ->where('officeAddress.type','=',1);
+                        ->where('officeAddress.type', '=', 1);
                 })
                 ->select(
                     'employees.*', 'commMedium.msg', 'commMedium.mail as commEmail' , 'commMedium.call', 'commMedium.any',
@@ -55,7 +62,10 @@ class DatatablesController extends Controller
                     ,'residenceAddress.fax AS residenceFax','officeAddress.street AS officeStreet'
                     ,'officeAddress.city AS officeCity','officeAddress.state AS officeState','officeAddress.zip AS officeZip'
                     ,'officeAddress.fax AS officeFax')
-                ->where('isActive','yes');
+                ->where('isActive','yes')
+                ->when($isAdmin, function ($query) {
+                    return $query->withTrashed();
+                });
 
             // Return Employee details json
             return Datatables::of( $query )
@@ -96,6 +106,11 @@ class DatatablesController extends Controller
                         }
                     }
 
+                    // Display restore button to admin for deactivated users
+                    if ( (Auth::user()->roleId == 2 ) && ($query->deleted_at != null) ) {
+                        $delete = view('restoreBtn');
+                    }
+
                     if ( $edit != '' || $delete != '' ) {
 
                         $result = view('actionBtn', array(
@@ -103,7 +118,7 @@ class DatatablesController extends Controller
                             'showStackInfo' => $showStackInfo ,
                             'edit' => $edit ,
                             'delete' => $delete
-                        ));
+                        ))->with('query', $query);
                     }
 
                     return $result;

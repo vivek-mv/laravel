@@ -54,6 +54,20 @@ class AuthenticateUser {
 
         }
 
+        // If the request is for restoring account
+        if ( $resource == 'restore' ) {
+
+            if ( (Auth::user()->roleId ==  2) ) {
+
+                $resource = 'details';
+                $action = 'delete';
+            } else {
+
+                return redirect()->route('home')->with('unauthorised',1);
+            }
+
+        }
+
         // If the request is for updating account
         if ( $resource == 'update' ) {
 

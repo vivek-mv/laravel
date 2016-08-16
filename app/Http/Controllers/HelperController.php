@@ -44,6 +44,27 @@ class HelperController extends Controller
     }
 
     /**
+     *  Restore the user account
+     * @param String $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+
+    public function restore($id) {
+        $userId = $id;
+
+        try {
+            Address::withTrashed()->where('employee_id', $userId)->restore();
+            CommMedium::withTrashed()->where('employee_id', $userId)->restore();
+            Employee::withTrashed()->find($userId)->restore();
+
+            return '{"success": 1}';
+        } catch (\Exception $ex) {
+            Helper::log($ex);
+            return redirect()->route('home')->with('restorefailed',1);
+        }
+    }
+
+    /**
      * Show the update view
      * @param String $id
      * @return html view

@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+    <button type="button" class="btn {{ ($query->deleted_at != null) ? 'btn-danger' : 'btn-primary' }} dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
         Action
         <span class="caret"></span>
