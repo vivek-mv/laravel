@@ -141,6 +141,14 @@
     </div>
 @endif
 
+<!-- Message for token creation failed -->
+@if ( Session::get('operationFailed') == '1' )
+
+    <div class="alert alert-danger">
+        <strong>Sorry, operation failed . Please try after some time.</strong>
+    </div>
+@endif
+
 
 
 

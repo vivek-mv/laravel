@@ -36,7 +36,6 @@ class AuthenticateUser {
 
         if ( !Auth::check() ) {
 
-            
             return redirect()->route('login');
         }
 

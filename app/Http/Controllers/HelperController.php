@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Helper controller to carry out tasks such as deleting account etc.
@@ -222,6 +223,7 @@ class HelperController extends Controller
 
     /**
      * Check for valid name and email and process the reset
+     *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -259,6 +261,179 @@ class HelperController extends Controller
 
             return redirect()->route('resetPassword')->with('resetDetails','0');
         }
+    }
+
+    /**
+     * Show the api page
+     *
+     * @param void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function api() {
+
+        if ( !Auth::check() ) {
+
+            return redirect()->route('login');
+        }
+
+        return view('api');
+    }
+
+    /**
+     * Create an api token and store in the database
+     *
+     * @param void
+     * @return \Illuminate\Http\RedirectResponse
+     */
+
+    public function createToken() {
+
+        if ( !Auth::check() ) {
+
+            return redirect()->route('login');
+        }
+
+        $rc = new RegistrationController();
+        $token = $rc->generateRandomString();
+
+        try {
+
+            $user = Employee::find(Auth::user()->id);
+            $user->api_token = $token;
+            $user->save();
+            return redirect()->route('api');
+        } catch (\Exception $ex) {
+
+            Helper::log($ex);
+            return redirect()->route('api')->with('operationFailed',1);
+        }
+    }
+
+    /**
+     * Fetch users info
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function fetchUsers(Request $request) {
+
+        $emailPwdValidator = Validator::make($request->all(), [
+            'email' => 'email|required|max:50',
+            'password' => 'required|alpha_num|min:5|max:11',
+        ]);
+
+        if ( $emailPwdValidator->fails() ) {
+
+            return response()
+                ->json([
+                    'error_code' => '400',
+                    'error_message' => 'incorrect parameters',
+                    'error_name' => 'Bad request'
+                ],400);
+        }
+
+        // Check for user authentication
+        if ( !Auth::once(['email' => $request->email, 'password' => $request->password, 'isActive' => 'yes']) ) {
+
+            return response()
+                ->json([
+                    'error_code' => '401',
+                    'error_message' => 'invalid username or password',
+                    'error_name' => 'Unauthorized'
+                ],401);
+        }
+
+        $userId = $request->userId;
+
+        $showSingleUser = false;
+        $limit = false;
+        $limitAndOffset = false;
+
+        $limitOffsetValidator = Validator::make($request->all(), [
+            'limit' => 'integer',
+            'offset' => 'integer',
+        ]);
+
+        if ( $limitOffsetValidator->fails() ) {
+
+            return response()
+                ->json([
+                    'error_code' => '400',
+                    'error_message' => 'incorrect parameters',
+                    'error_name' => 'Bad request'
+                ],400);
+        }
+
+        if ( $userId != null ) {
+
+            // Validate userid
+            if ( !preg_match("/^[0-9]*$/", $userId) ) {
+
+                return response()
+                    ->json([
+                        'error_code' => '400',
+                        'error_message' => 'incorrect parameters',
+                        'error_name' => 'Bad request'
+                    ],400);
+            }
+
+            $showSingleUser = true;
+        } elseif ( ($request->offset == null) && $request->limit != null ){
+
+            $limit = true;
+        } elseif ( ($request->limit != null) && $request->offset != null ){
+
+            $limitAndOffset = true;
+        }
+
+        $query =  Employee::join('commMedium', 'employees.id', '=', 'commMedium.employee_id')
+            ->join('address as residenceAddress', function($join)
+            {
+                $join->on('employees.id', '=', 'residenceAddress.employee_id')
+                    ->where('residenceAddress.type', '=', 0);
+            })
+            ->join('address as officeAddress', function($join)
+            {
+                $join->on('employees.id', '=', 'officeAddress.employee_id')
+                    ->where('officeAddress.type', '=', 1);
+            })
+            ->select(
+                'employees.firstName','employees.middleName','employees.lastName','employees.email','employees.photo','employees.stackId',
+                'residenceAddress.street AS residenceStreet','residenceAddress.city AS residenceCity'
+                ,'residenceAddress.state AS residenceState','residenceAddress.zip AS residenceZip'
+                ,'residenceAddress.fax AS residenceFax','officeAddress.street AS officeStreet'
+                ,'officeAddress.city AS officeCity','officeAddress.state AS officeState','officeAddress.zip AS officeZip'
+                )
+            ->where('isActive','yes')
+
+            ->when($showSingleUser, function ($query) use ($userId){
+                return $query->where('employees.id', $userId);
+            })
+
+            ->when($limit, function ($query) use ($request) {
+
+                return $query->take($request->limit);
+            })
+
+            ->when($limitAndOffset, function ($query) use ($request) {
+
+                return $query->skip($request->offset)->take($request->limit);
+            });
+
+        $data = $query->get();
+
+        foreach($data as $key => $value) {
+
+            $data[$key]->photo = asset('images/'.$value->photo);
+
+            if ( in_array($data[$key]->photo, ['default_male.jpg', 'default_female.jpg', 'default_others.jpg']) ) {
+
+                $data[$key]->photo = '';
+            }
+        }
+
+        return response()->json(['total_users' => $data->count(),'users' => $data]);
     }
 }
 

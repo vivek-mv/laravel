@@ -140,6 +140,21 @@ Route::group(['middleware' => 'authenticateUser'], function () {
     Route::post('dashboard/addUser', 'DashboardController@addUser');
 });
 
+/**
+ * Route to show API UI
+ */
+Route::get('api',['as' => 'api', 'uses' => 'HelperController@api']);
+
+/**
+ * Route to create api token
+ */
+Route::post('create-token',['as' => 'create-token', 'uses' => 'HelperController@createToken']);
+
+
+/**
+ * Route to get users info
+ */
+Route::post('api/users/{userId?}',['as' => 'fetchUsers', 'uses' => 'HelperController@fetchUsers']);
 
 
 
